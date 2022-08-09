@@ -1,5 +1,6 @@
 from IPython.display import clear_output
 
+
 def update_progress(progress):
     bar_length = 20
     if isinstance(progress, int):
