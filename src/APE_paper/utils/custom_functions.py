@@ -8,8 +8,6 @@ import pandas as pd
 import datetime
 from itertools import chain, compress
 import sys
-sys.path.append("../")  # go to parent
-import BehaviouralAnalysis.utils.load_nested_structs as load_ns
 #import glob
 import socket
 import scipy.optimize as opt
@@ -583,85 +581,6 @@ def AnalyzePercentageByDay(rdf):
     # merge into a single df and return
 
     return pd.concat(animalsInfo, ignore_index=True)
-
-
-def ReadAnimalData(filelist, printout=True):
-    # Reads all data from one animal and one protocol
-
-    # Initialize return lists
-    ExperimentFiles = []  # to store experiment names
-    ExperimentData = []  # to store the dictionaries
-    ntrialsDistribution = []  # to visualize the distribution of the number of trials
-    Protocols = []  # store the protocols
-    Stimulations = []  # store the stimulated protocols
-    Muscimol = []  # store information about the muscimol
-    counter = 0
-    # sort the file list
-    filelist = sorted(filelist, key=str.casefold)
-    for file in filelist:
-        # Read data
-        data = load_ns.loadmat(file)
-
-        # if that session is empty skip it:
-        if data is None or (not 'nTrials' in data['SessionData']):
-            print('Skipping file {0}'.format(file))
-            continue
-
-        ntrials = data['SessionData']['nTrials'] # this sometimes fails if the session is empty
-
-        ExperimentFiles.append(file)
-        # Parse the settings of the trials
-        trial_settings = data['SessionData']['TrialSettings']
-        try:
-            for trial_num, trial in enumerate(trial_settings):
-                trial_settings[trial_num] = load_ns._todict(trial)
-            data['SessionData']['TrialSettings'] = trial_settings
-        except Exception:
-            data['SessionData']['TrialSettings'] = np.nan
-
-        # Get info for the settings from the first trial
-        try:
-            protocol = trial_settings[0]['GUIMeta']['TrainingLevel']['String'][
-                trial_settings[0]['GUI']['TrainingLevel'] - 1]
-        except Exception:
-            protocol = 'Unknown'
-
-        try:
-            stimulation = trial_settings[0]['GUIMeta']['OptoStim']['String'][
-                trial_settings[0]['GUI']['OptoStim'] - 1]
-        except Exception:
-            stimulation = 'unknown'
-
-        try:
-            muscimol = trial_settings[0]['GUIMeta']['Muscimol']['String'][
-                trial_settings[0]['GUI']['Muscimol'] - 1]
-        except Exception:
-            muscimol = 'unknown'
-
-        if printout:
-            print('{}: {}, {} trials on {}, stim {}, muscimol {}'.format(\
-                    counter, ntpath.basename(file), ntrials, protocol, stimulation, muscimol))
-
-        ntrialsDistribution.append(ntrials)
-        Protocols.append(protocol)
-        Stimulations.append(stimulation)
-        Muscimol.append(muscimol)
-
-        # as RawEvents.Trial is a cell array of structs in MATLAB,
-        # we have to loop through the array and convert the structs to dicts
-        trial_raw_events = data['SessionData']['RawEvents']['Trial']
-        try:
-            for trial_num, trial in enumerate(trial_raw_events):
-                trial_raw_events[trial_num] = load_ns._todict(trial)
-            data['SessionData']['RawEvents']['Trial'] = trial_raw_events
-        except Exception:
-            data['SessionData']['RawEvents']['Trial'] = np.nan
-
-        # Save the data in a list
-        ExperimentData.append(data)
-        counter += 1
-
-    return ExperimentFiles, ExperimentData, ntrialsDistribution, Protocols, Stimulations, Muscimol
 
 
 def get_new_files(filelist, existing_dates):

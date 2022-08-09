@@ -1,13 +1,10 @@
 # plot_utils
 from numpy.core.numeric import NaN
-import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from math import *
 import pandas as pd
-sys.path.append("../")  # for search in the path
-import BehaviouralAnalysis.utils.custom_functions as cuf
-import OpenEphys_Analysis.utils.custom_functions as OE
+import APE_paper.utils.custom_functions as cuf
 import seaborn as sns
 from matplotlib.lines import Line2D
 from scipy import stats
