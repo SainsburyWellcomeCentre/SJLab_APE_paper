@@ -7,6 +7,7 @@ src/APE_paper/__init__.py
 src/APE_paper.egg-info/PKG-INFO
 src/APE_paper.egg-info/SOURCES.txt
 src/APE_paper.egg-info/dependency_links.txt
+src/APE_paper.egg-info/requires.txt
 src/APE_paper.egg-info/top_level.txt
 src/APE_paper/utils/__init__.py
 src/APE_paper/utils/custom_functions.py
