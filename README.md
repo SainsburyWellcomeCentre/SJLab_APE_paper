@@ -10,6 +10,7 @@ Reproduction of figures for the APE paper
 
     ```
     conda env create -f environment.yml
+    conda activate APE_paper
     ```
 
 3. change the current directory to that of the cloned repo
