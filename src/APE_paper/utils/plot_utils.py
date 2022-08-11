@@ -236,7 +236,7 @@ def reg_in_ax(X, Y, ax, legloc):
     ax.legend(handles=legend_elements, loc=legloc, frameon=False)
 
 
-def add_stats(ax=None, xvals=(0,1), yval=None, pval=None, n_asterisks = 1):
+def add_stats(ax=None, xvals=(0, 1), yval=None, pval=None, n_asterisks=1):
     # get axis
     if ax is None:
         ax = plt.gca()
@@ -253,15 +253,15 @@ def add_stats(ax=None, xvals=(0,1), yval=None, pval=None, n_asterisks = 1):
     # define where the first line end and where the second begin
     first_end = xmidpoint - mid_space / 2
     second_begin = first_end + mid_space
-    
+
     # plot the horizontal bars
     ax.plot([xvals[0], first_end], [yval, yval], 'gray')
     ax.plot([second_begin, xvals[1]], [yval, yval], 'gray')
-    
+
     # add asterisks
     ast_str = n_asterisks * '*'
     ax.text(xmidpoint, yval, ast_str, horizontalalignment='center', verticalalignment='center')
-    
+
     # add small vertical bars
     vbsize = 0.05 * (ylims[1] - ylims[0])
     ax.plot([xvals[0], xvals[0]], [yval, yval + vbsize], 'gray')
@@ -345,3 +345,30 @@ def plot_random_optolike_choices(df, ax, fake_dataset_m_and_std=[NaN, NaN, NaN],
         ax.plot(difficulty_o, choice_o, 'o', ms=8, color=colorlist[1])
 
     return ax
+
+
+def plot_trials_over_learning(ax, data, line_to_add, axtitle):
+    
+    ax.hlines(50, 0, 5000, linestyles='dotted', alpha=0.4)
+    
+    # plot here
+    sns.scatterplot(data=data,
+                x="CumulativeTrialNumberByProtocol",
+                y='CurrentPastPerformance100',
+                marker='.',
+                hue='SessionID',
+                alpha=.1,
+                ax=ax)
+    
+    # plot a line for binned trials
+    sns.lineplot(x=line_to_add[0], 
+                 y=line_to_add[1],
+                 color='k',
+                 ci=None,
+                 ax=ax)
+    
+    ax.get_legend().remove()
+    ax.text(.5,.95, axtitle, horizontalalignment='center', fontweight='bold', transform=ax.transAxes)
+
+    ax.axis('on')
+
