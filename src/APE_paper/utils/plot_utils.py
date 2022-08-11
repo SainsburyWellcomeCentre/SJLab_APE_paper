@@ -348,27 +348,48 @@ def plot_random_optolike_choices(df, ax, fake_dataset_m_and_std=[NaN, NaN, NaN],
 
 
 def plot_trials_over_learning(ax, data, line_to_add, axtitle):
-    
+
     ax.hlines(50, 0, 5000, linestyles='dotted', alpha=0.4)
-    
+
     # plot here
     sns.scatterplot(data=data,
-                x="CumulativeTrialNumberByProtocol",
-                y='CurrentPastPerformance100',
-                marker='.',
-                hue='SessionID',
-                alpha=.1,
-                ax=ax)
-    
+                    x="CumulativeTrialNumberByProtocol",
+                    y='CurrentPastPerformance100',
+                    marker='.',
+                    hue='SessionID',
+                    alpha=.1,
+                    ax=ax)
+
     # plot a line for binned trials
     sns.lineplot(x=line_to_add[0], 
                  y=line_to_add[1],
                  color='k',
                  ci=None,
                  ax=ax)
-    
+
     ax.get_legend().remove()
-    ax.text(.5,.95, axtitle, horizontalalignment='center', fontweight='bold', transform=ax.transAxes)
+    ax.text(.5, .95, axtitle, horizontalalignment='center', fontweight='bold', transform=ax.transAxes)
 
     ax.axis('on')
 
+
+def plot_swarm_and_boxplot(fit_df, var, ax, hue_order, spread, color_palette):
+    sns.swarmplot(data=fit_df,
+                    x='ExperimentalGroup',
+                    y=var,
+                    order=hue_order,
+                    hue='ExperimentalGroup',
+                    hue_order=hue_order,
+                    dodge=False, #jitter=.25,
+                    alpha=.5, zorder=1, size=8,
+                    ax=ax)
+
+    # boxplot next to it
+    for k, egr in enumerate(hue_order):
+        bpdat = fit_df[fit_df.ExperimentalGroup == egr][var].values
+        bp = ax.boxplot([bpdat], positions=[k + spread], widths=0.1,
+                        patch_artist=True, showfliers=False)
+        for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
+            plt.setp(bp[element], color=color_palette[k], linewidth=2)
+        for patch in bp['boxes']:
+            patch.set(facecolor='white')
