@@ -347,28 +347,39 @@ def plot_random_optolike_choices(df, ax, fake_dataset_m_and_std=[NaN, NaN, NaN],
     return ax
 
 
-def plot_trials_over_learning(ax, data, line_to_add, axtitle):
+def plot_trials_over_learning(ax, data, line_to_add=False, axtitle=False, override_hue=False):
 
     ax.hlines(50, 0, 5000, linestyles='dotted', alpha=0.4)
 
     # plot here
-    sns.scatterplot(data=data,
-                    x="CumulativeTrialNumberByProtocol",
-                    y='CurrentPastPerformance100',
-                    marker='.',
-                    hue='SessionID',
-                    alpha=.1,
-                    ax=ax)
+    if override_hue:
+        sns.scatterplot(data=data,
+                        x="CumulativeTrialNumberByProtocol",
+                        y='CurrentPastPerformance100',
+                        marker='.',
+                        color=override_hue,
+                        alpha=.1,
+                        ax=ax)
+
+    else:
+        sns.scatterplot(data=data,
+                        x="CumulativeTrialNumberByProtocol",
+                        y='CurrentPastPerformance100',
+                        marker='.',
+                        hue='SessionID',
+                        alpha=.1,
+                        ax=ax)
 
     # plot a line for binned trials
-    sns.lineplot(x=line_to_add[0], 
-                 y=line_to_add[1],
-                 color='k',
-                 ci=None,
-                 ax=ax)
-
-    ax.get_legend().remove()
-    ax.text(.5, .95, axtitle, horizontalalignment='center', fontweight='bold', transform=ax.transAxes)
+    if line_to_add:
+        sns.lineplot(x=line_to_add[0], 
+                    y=line_to_add[1],
+                    color='k',
+                    ci=None,
+                    ax=ax)
+    
+    if axtitle:
+        ax.text(.5, .95, axtitle, horizontalalignment='center', fontweight='bold', transform=ax.transAxes)
 
     ax.axis('on')
 
