@@ -11,6 +11,10 @@ import sys
 #import glob
 import socket
 import scipy.optimize as opt
+import random
+
+from APE_paper.utils.misc_utils import update_progress
+
 
 
 def first_diff_zero(array):
@@ -787,6 +791,78 @@ def get_choices(sideSelected, trialsDif):
 
     return difficulty, choice_mean
 
+
+
+def generate_eg(list_size, prob, labs):
+    # function to generate a list of experimental groups randomly
+    ltr = []
+    for i in range(list_size):
+        if random.random() < prob:
+            ltr.append(labs[0])
+        else:
+            ltr.append(labs[1])
+    return ltr
+
+
+def get_shuffled_means_difference_df(df_colsel, hue_order, nsh):
+    # get the experimental group for each animal
+    exp_gr = [df_colsel[df_colsel.AnimalID==x].ExperimentalGroup.unique()[0] for x in df_colsel.AnimalID.unique()]
+    # get the number of mice
+    n_an = len(exp_gr)
+    # get the probability of a mouse to be a control for this dataset
+    cb_prob = sum([x==hue_order[0] for x in exp_gr]) / n_an
+    # set random seed
+    np.random.seed(124321)
+    # calculate the differences of means by resampling
+    shuff_res = []
+
+    for i in range(nsh):
+        # shuffle the list of groups by assigning a probability for each mouse to be in a group based on the real ratio
+        exp_grs = generate_eg(n_an, cb_prob, hue_order)
+        # create a diccionary
+        egs_dict = dict(zip(df_colsel.AnimalID.unique(), exp_grs))
+        # create a new column with the shuffled group
+        df_colsel['egs'] = [egs_dict[x] for x in df_colsel.AnimalID]
+        # calculate the differences and append
+        shuff_res.append(df_colsel[df_colsel.egs == hue_order[0]].groupby('TrialIndexBinned').mean()['Performance'] -\
+                         df_colsel[df_colsel.egs == hue_order[1]].groupby('TrialIndexBinned').mean()['Performance'])
+        update_progress(i / nsh)
+    
+    update_progress(1)
+    
+    # return in a data frame format
+    return pd.concat(shuff_res)
+
+
+def get_shuffled_means_difference_global_significance(df_colsel, shrdf, quants_to_test, nsh, hue_order):
+    # get the experimental group for each animal
+    exp_gr = [df_colsel[df_colsel.AnimalID==x].ExperimentalGroup.unique()[0] for x in df_colsel.AnimalID.unique()]
+    # get the number of mice
+    n_an = len(exp_gr)
+    # get the probability of a mouse to be a control for this dataset
+    cb_prob = sum([x==hue_order[0] for x in exp_gr]) / n_an
+    # create an empty array to store results
+    global_sig = np.empty((nsh, len(quants_to_test)), dtype=bool)
+    # loop over shuffle data
+    for i in range(nsh):
+        # shuffle the list of groups by assigning a probability for each mouse to be in a group based on the real ratio
+        exp_grs = generate_eg(n_an, cb_prob, hue_order)
+        # create a diccionary
+        egs_dict = dict(zip(df_colsel.AnimalID.unique(), exp_grs))
+        # create a new column with the shuffled group
+        df_colsel['egs'] = [egs_dict[x] for x in df_colsel.AnimalID]
+        # calculate the differences
+        sh_dif = df_colsel[df_colsel.egs == hue_order[0]].groupby('TrialIndexBinned').mean()['Performance'] -\
+                           df_colsel[df_colsel.egs == hue_order[1]].groupby('TrialIndexBinned').mean()['Performance']
+        # for each quantile band, what percentages of lines cross at any point
+        for k,q in enumerate(quants_to_test):
+            global_sig[i,k] = any(np.logical_or(sh_dif > shrdf.groupby('TrialIndexBinned').quantile(q),
+                                                sh_dif < shrdf.groupby('TrialIndexBinned').quantile(1 - q)))
+            
+        update_progress(i / nsh)
+    update_progress(1)
+    
+    return global_sig
 
 
 DATA_FOLDER_PATHS = {

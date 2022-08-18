@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+import seaborn as sns
+
 from APE_paper.utils import plot_utils
 from APE_paper.utils.misc_utils import update_progress
 from APE_paper.utils import model_utils
@@ -164,3 +166,73 @@ def make_figure_performance_trials_animals_biased_trials(df_to_plot, bias_mask):
     
     return fig
 
+
+def make_figure_differences_performance_between_groups(df_to_plot, col_to_plot, hue_order, color_palette):
+    data_mean = df_to_plot.groupby(['CumulativeTrialNumberByProtocol','ExperimentalGroup'])[col_to_plot].mean().reset_index()
+    st_err_mean = df_to_plot.groupby(['CumulativeTrialNumberByProtocol','ExperimentalGroup'])[col_to_plot].std().reset_index()
+    data_mean['low_bound'] = data_mean[col_to_plot] - st_err_mean[col_to_plot]
+    data_mean['high_bound'] = data_mean[col_to_plot] + st_err_mean[col_to_plot]
+
+    fig1 = plt.figure(figsize=(8, 4))
+    plt.axhline(50, ls='dotted', alpha=0.4, color='k')
+    plt.axhline(100, ls='dotted', alpha=0.4, color='k')
+    for i,eg in enumerate(hue_order):
+        df = data_mean[data_mean.ExperimentalGroup==eg].copy()
+        x = df.CumulativeTrialNumberByProtocol
+        plt.plot(x, df[col_to_plot], color=color_palette[i], label=eg)
+        y1 = df['low_bound']
+        y2 = df['high_bound']
+        plt.fill_between(x, y1, y2, where=y2 >= y1, color=color_palette[i], alpha=.2, interpolate=False)
+
+    plt.ylabel(col_to_plot)
+    plt.xlabel('trial number')
+    plt.ylabel('task performance (%)')
+    plt.legend(loc=(0.76,0.3), frameon=False)
+
+    ax = plt.gca()
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+
+    # remove the legend as the figure has it's own
+    ax.get_legend().remove()
+
+    ax.set_xlim((0,5000))
+
+    plt.title('Task learning progression')
+
+    return fig1
+
+
+def make_figure_differences_performance_significance(real_data_pd, pos_ci, neg_ci):
+    fig2 = plt.figure(figsize=(8, 4))
+    plt.axhline(0, ls='dotted', alpha=0.4, color='k')
+    plt.plot(real_data_pd, color='k', label='observed data')
+    plt.plot(pos_ci, linestyle='--', color='gray', label='95% ci')
+    plt.plot(neg_ci, linestyle='--', color='gray')
+    x = pos_ci.reset_index().TrialIndexBinned
+    y1 = pos_ci.reset_index().Performance
+    y2 = real_data_pd.reset_index().Performance
+    plt.fill_between(x, y1, y2, where=y2 >= y1, facecolor='k', alpha=.2, interpolate=True)
+    plt.ylabel('performance difference (%)')
+    plt.xlabel('trial number')
+    plt.legend(loc=(0.75,0.05), frameon=False)
+    ax = plt.gca()
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.set_xlim((0,5000))
+
+    return fig2
+
+
+def make_figure_differences_performance_significance_global(real_data_pd, quants_to_test, shrdf, global_sig, nsh):
+    fig = plt.figure(figsize=(16, 4))
+    sns.lineplot(data=real_data_pd, color='r')
+    for k,q in enumerate(quants_to_test):
+        sns.lineplot(data=shrdf.groupby('TrialIndexBinned').quantile(q), color='k')
+        sns.lineplot(data=shrdf.groupby('TrialIndexBinned').quantile((1 - q)), color='k')
+        print('ci = ', q,
+            '\tglobal pval = ',  np.sum(global_sig, axis=0)[k] / nsh,
+            '\treal data significant ', any(np.logical_or(real_data_pd > shrdf.groupby('TrialIndexBinned').quantile(q),
+            real_data_pd < shrdf.groupby('TrialIndexBinned').quantile(1 - q))))
+            
+    return fig
