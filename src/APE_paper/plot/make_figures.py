@@ -177,7 +177,7 @@ def make_figure_differences_performance_between_groups(df_to_plot, col_to_plot, 
     plt.axhline(50, ls='dotted', alpha=0.4, color='k')
     plt.axhline(100, ls='dotted', alpha=0.4, color='k')
     for i,eg in enumerate(hue_order):
-        df = data_mean[data_mean.ExperimentalGroup==eg].copy()
+        df = data_mean[data_mean.ExperimentalGroup == eg].copy()
         x = df.CumulativeTrialNumberByProtocol
         plt.plot(x, df[col_to_plot], color=color_palette[i], label=eg)
         y1 = df['low_bound']
@@ -210,16 +210,16 @@ def make_figure_differences_performance_significance(real_data_pd, pos_ci, neg_c
     plt.plot(pos_ci, linestyle='--', color='gray', label='95% ci')
     plt.plot(neg_ci, linestyle='--', color='gray')
     x = pos_ci.reset_index().TrialIndexBinned
-    y1 = pos_ci.reset_index().Performance
+    y1 = neg_ci.reset_index().Performance
     y2 = real_data_pd.reset_index().Performance
-    plt.fill_between(x, y1, y2, where=y2 >= y1, facecolor='k', alpha=.2, interpolate=True)
+    plt.fill_between(x, y1, y2, where=y1 >= y2, facecolor='k', alpha=.2, interpolate=True)
     plt.ylabel('performance difference (%)')
     plt.xlabel('trial number')
-    plt.legend(loc=(0.75,0.05), frameon=False)
+    plt.legend(loc=(0.75, 0.05), frameon=False)
     ax = plt.gca()
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
-    ax.set_xlim((0,5000))
+    ax.set_xlim((0, 5000))
 
     return fig2
 

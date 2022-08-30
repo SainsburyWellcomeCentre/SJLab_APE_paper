@@ -824,8 +824,8 @@ def get_shuffled_means_difference_df(df_colsel, hue_order, nsh):
         # create a new column with the shuffled group
         df_colsel['egs'] = [egs_dict[x] for x in df_colsel.AnimalID]
         # calculate the differences and append
-        shuff_res.append(df_colsel[df_colsel.egs == hue_order[0]].groupby('TrialIndexBinned').mean()['Performance'] -\
-                         df_colsel[df_colsel.egs == hue_order[1]].groupby('TrialIndexBinned').mean()['Performance'])
+        shuff_res.append(df_colsel[df_colsel.egs == hue_order[1]].groupby('TrialIndexBinned').mean()['Performance'] -\
+                         df_colsel[df_colsel.egs == hue_order[0]].groupby('TrialIndexBinned').mean()['Performance'])
         update_progress(i / nsh)
     
     update_progress(1)
@@ -852,8 +852,8 @@ def get_shuffled_means_difference_global_significance(df_colsel, shrdf, quants_t
         # create a new column with the shuffled group
         df_colsel['egs'] = [egs_dict[x] for x in df_colsel.AnimalID]
         # calculate the differences
-        sh_dif = df_colsel[df_colsel.egs == hue_order[0]].groupby('TrialIndexBinned').mean()['Performance'] -\
-                           df_colsel[df_colsel.egs == hue_order[1]].groupby('TrialIndexBinned').mean()['Performance']
+        sh_dif = df_colsel[df_colsel.egs == hue_order[1]].groupby('TrialIndexBinned').mean()['Performance'] -\
+                           df_colsel[df_colsel.egs == hue_order[0]].groupby('TrialIndexBinned').mean()['Performance']
         # for each quantile band, what percentages of lines cross at any point
         for k,q in enumerate(quants_to_test):
             global_sig[i,k] = any(np.logical_or(sh_dif > shrdf.groupby('TrialIndexBinned').quantile(q),
