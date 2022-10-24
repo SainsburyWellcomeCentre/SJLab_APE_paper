@@ -27,3 +27,5 @@ Reproduction of figures for the APE paper
 
 # Colab notebooks:
 [Figure 1 IJK](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_IJK.ipynb)
+[Figure 1 C](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_C.ipynb)
+
