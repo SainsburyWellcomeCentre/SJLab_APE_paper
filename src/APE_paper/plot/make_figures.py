@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import seaborn as sns
+import pandas as pd
 
 from APE_paper.utils import plot_utils
 from APE_paper.utils.misc_utils import update_progress
@@ -227,12 +228,51 @@ def make_figure_differences_performance_significance(real_data_pd, pos_ci, neg_c
 def make_figure_differences_performance_significance_global(real_data_pd, quants_to_test, shrdf, global_sig, nsh):
     fig = plt.figure(figsize=(16, 4))
     sns.lineplot(data=real_data_pd, color='r')
-    for k,q in enumerate(quants_to_test):
+    for k, q in enumerate(quants_to_test):
         sns.lineplot(data=shrdf.groupby('TrialIndexBinned').quantile(q), color='k')
         sns.lineplot(data=shrdf.groupby('TrialIndexBinned').quantile((1 - q)), color='k')
         print('ci = ', q,
             '\tglobal pval = ',  np.sum(global_sig, axis=0)[k] / nsh,
             '\treal data significant ', any(np.logical_or(real_data_pd > shrdf.groupby('TrialIndexBinned').quantile(q),
             real_data_pd < shrdf.groupby('TrialIndexBinned').quantile(1 - q))))
-            
+
     return fig
+
+
+def make_figure_muscimol_sessions_overview(mus_df):
+    # plot a summary of all the animals in the dataset
+    fig, ax = plt.subplots(len(pd.unique(mus_df.AnimalID)), 1,
+                           figsize=(7, 5 * len(pd.unique(mus_df.AnimalID))))
+    axs = ax.ravel()
+    fig.subplots_adjust(hspace=1.3)
+    for i, animal in enumerate(pd.unique(mus_df.AnimalID)):
+        aDF = mus_df[mus_df.AnimalID == animal]
+        dfToPlot = plot_utils.summary_matrix(aDF)
+        axs[i] = plot_utils.summary_plot(dfToPlot, aDF, axs[i], top_labels=['Muscimol'])
+
+    return fig
+
+
+def make_figure_muscimol_psychometric(PP_array, muscond_text, colorlist):
+    fig = plt.figure(figsize=(5, 5), facecolor='w', edgecolor='k')
+    ax = plt.gca()
+    ax.hlines(50, 0, 100, linestyles='dotted' , alpha=0.4)
+
+    for counter, results in enumerate(PP_array):
+        predictDif, PsyPer, fakePredictions, predictPer, EB = results
+        plot_utils.PlotPsychPerformance(dataDif=PsyPer['Difficulty'], dataPerf=PsyPer['Performance'],
+                                        predictDif=predictDif, ax=ax, fakePred=fakePredictions,
+                                        realPred=predictPer, label=muscond_text[counter], errorBars=EB,
+                                        color=colorlist[counter])
+    ax.axis('on')
+    # remove some ticks
+    ax.tick_params(which='both', top=False, bottom='on', left='on', right=False,
+                   labelleft='on', labelbottom='on')
+
+    L = plt.legend(loc='upper left', frameon=False)
+    # L.get_texts()[0].set_text('Saline (str tail)')
+    # L.get_texts()[1].set_text('Muscimol (str tail)')
+    # L.get_texts()[2].set_text('Muscimol (DMS)')
+
+    return fig
+
