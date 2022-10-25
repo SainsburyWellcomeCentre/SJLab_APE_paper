@@ -494,3 +494,30 @@ def make_figure_optoinhibition_after_learning_curves(oal_df, random_opto_df):
 
     return fig
 
+
+def make_figure_6ohda_lesion_correlation(merged_df, color_palette):
+    fig = plt.figure(figsize=(5,3))
+    sns.scatterplot(data=merged_df[merged_df.ExperimentalGroup=='6OHDAtail'],
+                    x='maximum_performance',
+                    y='ratio posterior/anterior',
+                    color=color_palette[1],
+                    s=100)
+    ax = plt.gca()
+    cntrls = merged_df[merged_df.ExperimentalGroup=='CortexBuffer'].copy()
+    ax.scatter(cntrls.maximum_performance.mean(),
+            cntrls['ratio posterior/anterior'].mean(),
+            marker = 'o', linewidth=3,
+            s=100, facecolors='none', edgecolors=color_palette[0])
+
+    # calculate regression with the 6OHDAs
+    df_for_reg = merged_df[merged_df.ExperimentalGroup=='6OHDAtail'].dropna().copy()
+    plot_utils.reg_in_ax(df_for_reg['maximum_performance'], df_for_reg['ratio posterior/anterior'], ax, 'upper left')
+    #ax.get_legend().remove()
+    ax.set_ylabel('posterior DA / anterior DA')
+    ax.set_xlabel('maximum performance (%)')
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+
+    return fig
+#'''
+# clear_output()
