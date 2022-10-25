@@ -9,6 +9,8 @@ from scipy import stats
 from APE_paper.utils import plot_utils
 from APE_paper.utils.misc_utils import update_progress
 from APE_paper.utils import model_utils
+from APE_paper.utils import custom_functions as cuf
+
 
 
 def make_figure_performance_trials_animals_bin(df_to_plot):
@@ -390,5 +392,105 @@ def make_figure_optoinhibition_after_learning_batch(random_opto_df):
         ax.plot([spread*spr_adj, spread*spr_adj], [hlocs[i], hlocs[i]*.8], color='k', linewidth=.5)
         ax.set_xticks([])
                     
+    return fig
+
+
+def make_figure_optoinhibition_after_learning_curves(oal_df, random_opto_df):
+    # Plot the data with the error bars for the random sampling, and the custom fitting
+    ColorList = ['powderblue', 'plum']
+    normal_color = 'gray'
+    LabelList = ['left stimulation', 'right stimulation']
+    Genotypes = ['D1opto', 'D2opto']
+    StimSides = ['Left', 'Right']
+
+    n_cols = 2
+
+    fig, axs = plt.subplots(1, n_cols,
+                            figsize=(7 * n_cols, 5),
+                            facecolor='w', edgecolor='k')
+
+    axs = axs.ravel()
+
+    for i, ax in enumerate(axs):
+
+        genot = Genotypes[i]
+
+        # select sessions
+        g_mask = random_opto_df.Genotype == genot
+        s_mask = random_opto_df.stimulated_side.isin(StimSides)
+
+        sessions_list_cleaned = random_opto_df[np.logical_and(g_mask, s_mask)].SessionID
+        
+        # plot the normal choices and fit
+        session_df = oal_df[oal_df['SessionID'].isin(sessions_list_cleaned)]
+        df_for_plot = session_df[session_df.OptoStim==0]
+        plot_utils.plot_regression(df=df_for_plot, ax=ax,
+                                color=normal_color, label='', plot_points=False)
+        
+        predictDif, PsyPer, _, _, EB = \
+        cuf.PP_ProcessExperiment(df_for_plot, 0, error_bars='SessionTime')
+        plot_utils.PlotPsychPerformance(dataDif = PsyPer['Difficulty'], dataPerf = PsyPer['Performance'],
+                                        predictDif = predictDif, ax = ax, fakePred = None,
+                                        realPred = None, color = normal_color, label = 'control trials', errorBars = EB)
+        
+        
+        # plot each side
+        for k, stside in enumerate(StimSides):
+            s_mask = random_opto_df.stimulated_side == stside
+            sessions_list_cleaned = random_opto_df[np.logical_and(g_mask, s_mask)].SessionID
+
+            # plot the normal choices and fit
+            session_df = oal_df[oal_df['SessionID'].isin(sessions_list_cleaned)]
+            df_for_plot = session_df[session_df.OptoStim==1]
+            plot_utils.plot_regression(df=df_for_plot, ax=ax,
+                                    color=ColorList[k], label='', plot_points=False)
+
+            predictDif, PsyPer, _, _, EB = \
+            cuf.PP_ProcessExperiment(df_for_plot, 0, error_bars='SessionTime')
+            plot_utils.PlotPsychPerformance(dataDif = PsyPer['Difficulty'], dataPerf = PsyPer['Performance'],
+                                            predictDif = predictDif, ax = ax, fakePred = None,
+                                            realPred = None, color = ColorList[k], label = LabelList[k],
+                                            errorBars = EB)
+
+        ax.text(.5,1.05, genot, \
+                horizontalalignment='center', fontweight='bold', transform=ax.transAxes, fontsize=16)    
+        
+        ax.axis('on')
+        # remove some ticks
+        ax.tick_params(which='both', top=False, bottom='on', left='on', right=False,
+                    labelleft='on', labelbottom='on')
+        if not ax.is_first_col():
+            ax.set_ylabel('')
+            ax.set_yticks([])
+        if not ax.is_last_row():
+            ax.set_xlabel('')
+            ax.set_xticks([])
+
+        ax.set_ylim(-2., 102.)
+        ax.legend(bbox_to_anchor=(1.05, 1), loc=0, borderaxespad=0.)
+
+        # get rid of the frame
+        for spine in ax.spines.values():
+            spine.set_visible(True)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        
+        # tick text size
+        for tick in ax.yaxis.get_major_ticks():
+            tick.label.set_fontsize(14)
+        
+        for tick in ax.xaxis.get_major_ticks():
+            tick.label.set_fontsize(14)
+        
+        # reverse x axis ticks
+        ax.set_xticklabels([2, 18, 34, 50, 66, 82, 98][::-1])
+
+
+        ax.set_ylabel('trials reported low (%)' , fontsize=16)
+        
+        ax.set_xlabel('low tones (%)', fontsize=16)
+
+    plt.tight_layout()
+
     return fig
 
