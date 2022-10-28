@@ -792,7 +792,6 @@ def get_choices(sideSelected, trialsDif):
     return difficulty, choice_mean
 
 
-
 def generate_eg(list_size, prob, labs):
     # function to generate a list of experimental groups randomly
     ltr = []
@@ -865,18 +864,24 @@ def get_shuffled_means_difference_global_significance(df_colsel, shrdf, quants_t
     return global_sig
 
 
-DATA_FOLDER_PATHS = {
-    'nailgun': '/home/hernandom/data',
-    'HMVergara-Laptop': '/mnt/c/Users/herny/Desktop/SWC/Data'
-}
+def get_random_choices_for_optostimulation(df, ntimes):
 
+    data = np.empty([len(pd.unique(df['SessionID'])), 3], dtype=object)
 
-def get_data_folder():
-    """
-    Selects data folder depending on computer name
-    """
-    computer_name = socket.gethostname()
-    try:
-        return DATA_FOLDER_PATHS[computer_name]
-    except KeyError:
-        raise KeyError(f"Unknown data path for computer {computer_name}.")
+    for i, session in enumerate(pd.unique(df['SessionID'])):
+        # generate the random dataset, and save it to a general dataframe for later use
+        session_df = df[df['SessionID'] == session]
+        roc = get_random_optolike_choices(df=session_df, n_times=ntimes)
+        _, odf = splitOpto(session_df)
+        roc_ds = np.apply_along_axis(get_choices, 1, roc, trialsDif=odf['Difficulty'])
+        avail_diffs = roc_ds[0,0,:]
+        rand_choices_ds = roc_ds[:,1,:]
+        # fill
+        data[i] = [session, avail_diffs, rand_choices_ds]
+        
+        update_progress(i / len(pd.unique(df['SessionID'])))
+
+    random_opto_df = pd.DataFrame(data, columns=['SessionID', 'Difficulties', 'Random_choices'])
+    update_progress(1)
+
+    return random_opto_df
