@@ -519,5 +519,127 @@ def make_figure_6ohda_lesion_correlation(merged_df, color_palette):
     ax.spines['top'].set_visible(False)
 
     return fig
-#'''
-# clear_output()
+
+
+def make_figure_optoinhibition_through_learning_per_mouse(random_opto_df, significance = 0.05):
+
+    stim_types = ['Right', 'Left']
+    colors = ['c', 'm']
+    animals = pd.unique(random_opto_df.AnimalID)
+    fig, axs = plt.subplots(len(pd.unique(random_opto_df.Genotype)), 5,
+                            figsize=(15, len(animals)),
+                            sharex=True, sharey=True)
+    axs = axs.ravel()
+    # for ax in axs.ravel(): ax.axis('off')
+    for an_c, animal in enumerate(animals):
+        ax = axs[an_c]
+        ax.set_title(animal)
+        ax.axhline(0, color='grey', linestyle='--')
+        animal_rdf = random_opto_df[random_opto_df.AnimalID == animal]
+        
+        for session in pd.unique(animal_rdf.SessionID):
+            session_idx = animal_rdf.index[animal_rdf.SessionID == session].item()
+            st_t = animal_rdf.loc[session_idx].stimulated_side
+            sp = animal_rdf.loc[session_idx].session_performance
+            cb = animal_rdf.loc[session_idx].contralateral_bias_exp
+            cbs = animal_rdf.loc[session_idx].bias_std_exp * 2
+            st_idx = stim_types.index(st_t)
+
+            ax.plot([sp, sp], [cb-cbs, cb+cbs], color=colors[st_idx], linewidth=3, alpha=.5)
+            facecol = 'w'
+            edgecol = colors[st_idx]
+            if animal_rdf.loc[session_idx].significance_value < significance:
+                facecol = colors[st_idx]
+                edgecol = 'k'
+            ax.plot(sp, cb, 'o', ms=14, markerfacecolor=facecol, alpha = 1, color=edgecol)
+        ax.set_xlabel('Performance')
+        ax.set_ylabel('Contralateral bias')
+
+    return fig
+
+
+def make_figure_optoinhibition_through_learning(random_opto_df, reg_dicc, xs,
+                                                group_shuffle_mean, group_shuffle_std,
+                                                significance = 0.05,
+                                                colors = ['b', 'm']):
+    # plot them all together
+    genotypes = ['D1opto', 'D2opto']
+    labels_for_legend = ['D1-Arch', 'D2-Arch']
+
+    fig, ax = plt.subplots(1, 1, figsize=(20, 10))
+    ax.axhline(0, color='grey', linestyle='--', linewidth=1)
+
+    fibers = pd.unique(random_opto_df.fiber_id)
+
+    for an_c, fiber in enumerate(fibers):
+        
+        animal_rdf = random_opto_df[random_opto_df.fiber_id == fiber]
+        
+        for session in pd.unique(animal_rdf.SessionID):
+            session_idx = animal_rdf.index[animal_rdf.SessionID == session].item()
+            sp = animal_rdf.loc[session_idx].session_performance
+            cb = animal_rdf.loc[session_idx].contralateral_bias_exp
+            cbs = animal_rdf.loc[session_idx].bias_std_exp * 2
+            genot = animal_rdf.loc[session_idx].Genotype
+            g_idx = genotypes.index(genot)
+            gfl = labels_for_legend[g_idx]
+
+            ax.plot([sp, sp], [cb-cbs, cb+cbs], color=colors[g_idx], linewidth=4, alpha=.8)     
+            facecol = 'w'
+            edgecol = colors[g_idx]
+            if animal_rdf.loc[session_idx].significance_value < significance:
+                facecol = colors[g_idx]
+                edgecol = 'k'
+            ax.plot(sp, cb, 'o', ms=20, markerfacecolor=facecol, alpha = 1, color=edgecol, label=gfl)
+
+
+    # add regression          
+    for genotype in np.unique(reg_dicc['genotypes']):
+        # find indexes for that genotype
+        gmask = np.where([g == genotype for g in reg_dicc['genotypes']])[0]
+
+        # get means and stds
+        fits_array = np.zeros([len(gmask), len(xs)])
+        for i, idx in enumerate(gmask):
+            fits_array[i,:] = reg_dicc['fits'][idx]
+        genot_means = np.mean(fits_array, axis=0)
+        genot_stds = np.std(fits_array, axis=0)
+        
+        genot_idx = genotypes.index(genotype)
+        
+        plt.plot(xs, genot_means, color=colors[genot_idx], zorder=-30) #, label=labels_for_legend[genot_idx])
+        plt.fill_between(xs, genot_means - genot_stds, genot_means + genot_stds,
+                        color=colors[genot_idx], alpha=0.2, zorder=-50)
+        
+    # plot random
+    plt.fill_between(xs,
+                     group_shuffle_mean - group_shuffle_std,
+                     group_shuffle_mean + group_shuffle_std,
+                     color='grey', alpha=0.2, zorder=-100)
+
+    #beautify the plot
+    ax.set_ylim(-75, 75)
+    ax.set_xlim(50, 100)
+
+    # get rid of the frame
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+
+    # set labels
+    ax.set_ylabel('Contralateral bias (% of choices)', fontsize=20)
+    ax.set_xlabel('Task performance (% of correct choices)', fontsize=20)
+    ax.set_title('Optoinhibition effects increase through learning', fontsize=25)
+
+    # add legend
+    handles, labels = ax.get_legend_handles_labels()
+    by_label = dict(zip(labels, handles))
+    fig.legend(by_label.values(), by_label.keys(), frameon=False, loc=(.32, .85), ncol=2, fontsize=20)
+    # ax.legend()
+    for tick in ax.xaxis.get_major_ticks():
+        tick.label.set_fontsize(18) 
+
+    for tick in ax.yaxis.get_major_ticks():
+        tick.label.set_fontsize(18)
+    
+    return fig
+

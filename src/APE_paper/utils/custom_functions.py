@@ -879,9 +879,224 @@ def get_random_choices_for_optostimulation(df, ntimes):
         # fill
         data[i] = [session, avail_diffs, rand_choices_ds]
         
-        update_progress(i / len(pd.unique(df['SessionID'])))
+        update_progress(i / len(pd.unique(df['SessionID'])), head='Generating dataset')
 
     random_opto_df = pd.DataFrame(data, columns=['SessionID', 'Difficulties', 'Random_choices'])
     update_progress(1)
 
     return random_opto_df
+
+
+def calculate_differences_with_random_optostimulation(otl_df, random_opto_df, n_times):
+    # Calculate the differences between the random choices and the opto ones to measure the bias
+
+    random_opto_df['bias'] = None
+    random_opto_df['bias_mean'] = None
+    random_opto_df['bias_std'] = None
+
+    tot_sess = len(pd.unique(random_opto_df['SessionID']))
+
+    for sc, session in enumerate(pd.unique(random_opto_df['SessionID'])):
+        session_idx = random_opto_df.index[random_opto_df.SessionID == session].item()
+        # get data for opto
+        opto_df = otl_df[(otl_df['SessionID'] == session) & (otl_df['OptoStim']==1)]
+        trialsDif = np.array(opto_df['TrialHighPerc'])
+        sideSelected = np.array(opto_df['FirstPoke'])
+        difficulty, opto_perf = get_choices(sideSelected, trialsDif)
+        
+        # get data for the shuffles
+        updown_list = np.empty(n_times)
+        for i in range(n_times):
+            y_vals = random_opto_df.loc[session_idx].Random_choices[i]
+            # calculate difference and normalize
+            updown_list[i] = np.sum(y_vals - opto_perf) / len(difficulty)
+        
+        random_opto_df.at[session_idx, 'bias'] = updown_list
+        random_opto_df.at[session_idx, 'bias_mean'] = np.nanmean(updown_list)
+        random_opto_df.at[session_idx, 'bias_std'] = np.nanstd(updown_list)
+        
+        update_progress((sc + 1) / tot_sess, head='Getting differences')
+    
+    return random_opto_df
+
+
+def add_info_and_contralateral_bias(oal_df, random_opto_df):
+    # add the side in which stimulation happened, and translate the bias to contralateral / ipsilateral
+    random_opto_df['stimulated_side'] = None
+    random_opto_df['contralateral_bias'] = None
+    # Get a column with the mouse name
+    random_opto_df['AnimalID'] = None
+    # And the type of mouse
+    random_opto_df['Genotype'] = None
+
+    tot_sess = len(pd.unique(random_opto_df['SessionID']))
+
+    for sc, session in enumerate(pd.unique(random_opto_df['SessionID'])):
+        session_idx = random_opto_df.index[random_opto_df.SessionID == session].item()
+        # get information
+        stim_side = oal_df[oal_df['SessionID'] == session].Stimulation.unique().item()    
+        # add info
+        random_opto_df.at[session_idx, 'stimulated_side'] = stim_side
+        mouse_name = random_opto_df.loc[session_idx].SessionID.split(' ')[0]
+        random_opto_df.at[session_idx, 'AnimalID'] = mouse_name
+        random_opto_df.at[session_idx,'Genotype'] = mouse_name.split('-')[0]
+
+        # bias is the normal minus the opto. This means that a positive value is a leftwards bias of the opto trials
+        # this is good as a contralateral bias for the trials in which optostimulation occurs in the right side
+        # flip the sign of the ones where stimulation happens on the left
+        if stim_side == 'Right':
+            random_opto_df.at[session_idx, 'contralateral_bias'] = random_opto_df.at[session_idx, 'bias_mean']
+        elif stim_side == 'Left':
+            random_opto_df.at[session_idx, 'contralateral_bias'] = - random_opto_df.at[session_idx, 'bias_mean']
+        elif stim_side == 'Both':
+            random_opto_df.at[session_idx, 'contralateral_bias'] = np.nan
+        else:
+            print('Something wrong')
+    
+        update_progress((sc + 1) / tot_sess, head='Adding info')
+    
+    return random_opto_df
+
+
+def get_random_dataframe_for_optostimulation(oal_df, n_times):
+
+    # Generate random optostimulation choices for every session
+    random_opto_df = get_random_choices_for_optostimulation(oal_df, n_times)
+
+    # Calculate differences with the stimulated trials
+    random_opto_df = calculate_differences_with_random_optostimulation(oal_df, random_opto_df, n_times)
+
+    # add the side in which stimulation happened, mouse name and genotype,
+    # and translate the bias to contralateral / ipsilateral
+    random_opto_df = add_info_and_contralateral_bias(oal_df, random_opto_df)
+
+    print('Done computing the random dataframe')
+
+    return random_opto_df
+
+
+
+def difficulty_for_bias(mouse_line, stimulated_side):
+    # function to determine which difficulty to look at
+    # create a logic table in order to find which difficulty to look at when calculating the bias
+    # this depends on the contingency, on the mouse line, and on the the fiber placement
+
+    # expected movements given the sound (difficulty)
+    set_contingency = {'Right': 2.0,
+                       'Left': 98.0}
+
+    # expectation (and observation) of bias
+    bias_expectation = {'D1opto': 'ipsi',
+                        'D2opto': 'contra'}
+
+    # logical table for what to expect given ipsi/contra
+    # e.g. if you expect an ipsi bias and the fiber is on the right, you wanna look at the left movements
+    # -----------------------------
+    #           |   Right   Left
+    #           |-----------------
+    #  ipsi     |   Left    Right
+    #  contra   |   Right   Left
+    # -----------------------------
+    logic_rows = ['ipsi', 'contra']
+    logic_cols = ['Right', 'Left']
+    logic_table = [['Left', 'Right'], ['Right', 'Left']]
+    
+    expected_bias = bias_expectation[mouse_line]
+    table_row = logic_rows.index(expected_bias)
+    table_col = logic_cols.index(stimulated_side)
+    affected_side = logic_table[table_row][table_col]
+    
+    return set_contingency[affected_side]
+
+
+def fiber_unique_id(panda_series):
+    return '_'.join([panda_series.AnimalID, panda_series.stimulated_side])
+
+
+def significance_calculator(panda_series):
+    cbe = panda_series.bias_exp
+    # get contra value
+    if panda_series.stimulated_side == 'Left':
+        cbe = [-x for x in cbe]
+
+    if panda_series.Genotype == 'D1opto':
+        n_sig = np.sum([x > 0 for x in cbe])
+    if panda_series.Genotype == 'D2opto':
+        n_sig = np.sum([x < 0 for x in cbe])
+
+    return n_sig / len(cbe)
+
+
+def get_simplified_dataframe_for_optostimulation(random_opto_df):
+
+    # columns: animal_id | genotype | session_performance | contralateral_bias_exp
+    animal_id_list = []
+    genotype_list = []
+    session_performance_list = []
+    contra_bias_list = []
+
+    fibers = pd.unique(random_opto_df.fiber_id)
+    for animal in fibers:
+        animal_rdf = random_opto_df[random_opto_df.fiber_id == animal]
+        for session in pd.unique(animal_rdf.SessionID):
+            session_idx = animal_rdf.index[animal_rdf.SessionID == session].item()
+            sp = animal_rdf.loc[session_idx].session_performance
+            cb = animal_rdf.loc[session_idx].contralateral_bias_exp
+            session_performance_list.append(sp)
+            contra_bias_list.append(cb)
+            genotype_list.append(animal_rdf.loc[session_idx].Genotype)
+            animal_id_list.append(animal)
+
+    simplified_df = pd.DataFrame({'animal_id': animal_id_list,
+                                'genotype': genotype_list,
+                                'session_performance': session_performance_list,
+                                'contralateral_bias': contra_bias_list})
+    
+    return simplified_df
+
+
+def get_fit_coefs(df):
+    x = df.session_performance
+    y = df.contralateral_bias
+    return np.polyfit(x, y, 1)
+
+
+def get_dicctionary_of_regressions_optostimulation(simplified_df, shuffle_times = 100, xs = range(50,100)):
+    # calculate slopes and generate shuffles of biases per mouse to get the significance for each individual
+    # save all in a diccionary
+    reg_dicc = {'animals': [],
+                'genotypes': [],
+                'reg_coefs': [],
+                'fits': [],
+                'predicted_matrices': [],
+                'shuffled_coefficients': []}
+
+    for animal in simplified_df.animal_id.unique():
+        reg_df = simplified_df[simplified_df.animal_id == animal].copy()
+        slope, intercept = get_fit_coefs(reg_df)
+
+        # get a list of coefficients for suffled dataframes
+        shuffled_slopes = np.zeros(shuffle_times)
+        shuffled_int = np.zeros(shuffle_times)
+        # generate a matrix of predictions
+        predicted_matrix = np.zeros([shuffle_times, len(xs)])
+
+        for i in range(shuffle_times):
+            # shuffle dataframe
+            shuffled_df = reg_df.copy()
+            np.random.shuffle(shuffled_df.contralateral_bias.values)
+            # get coefficients
+            shuffled_slopes[i], shuffled_int[i] = get_fit_coefs(shuffled_df)
+            # fill matrix
+            predicted_matrix[i,:] = shuffled_int[i] + shuffled_slopes[i] * xs
+
+        # fill diccionary
+        reg_dicc['animals'].append(animal)
+        reg_dicc['genotypes'].append(simplified_df[simplified_df.animal_id==animal].genotype.unique()[0])
+        reg_dicc['reg_coefs'].append([slope, intercept])
+        reg_dicc['fits'].append(intercept + slope * xs)
+        reg_dicc['predicted_matrices'].append(predicted_matrix)
+        reg_dicc['shuffled_coefficients'].append([shuffled_slopes, shuffled_int])
+
+    return reg_dicc
+
