@@ -643,3 +643,36 @@ def make_figure_optoinhibition_through_learning(random_opto_df, reg_dicc, xs,
     
     return fig
 
+
+def make_figure_optoinhibition_significant_sessions(sess_df):
+    fig, ax = plt.subplots(1, 1, figsize=(20, 5))
+    sns.lineplot(data=sess_df, x='performance_window', y='proportion_of_significant_sessions', ci=None, ax=ax,
+                linewidth=3)
+    ax.lines[0].set_linestyle("--")
+        
+    # add number of sessions tested
+    for idx in sess_df.index:
+        ax.text(sess_df.loc[idx, 'performance_window'],
+                sess_df.loc[idx, 'proportion_of_significant_sessions'] + 5,
+                '{}/{}'.format(sess_df.loc[idx, 'number_of_significant_sessions'], sess_df.loc[idx, 'n_sessions']),
+                horizontalalignment='center', color='black', weight='semibold', fontsize=16)
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+
+    # set labels
+    ax.set_ylabel('Percentage of biased sessions', fontsize=20)
+    ax.set_xlabel('Task performance (% of correct choices)', fontsize=20)
+    # ax.set_title('Optoinhibition effects increase through learning', fontsize=25)
+
+    # ax.legend()
+    for tick in ax.xaxis.get_major_ticks():
+        tick.label.set_fontsize(18) 
+
+    for tick in ax.yaxis.get_major_ticks():
+        tick.label.set_fontsize(18)
+        
+    ax.set_xlim(50, 100)
+
+    return fig
+
+    

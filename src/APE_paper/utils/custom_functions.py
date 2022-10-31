@@ -1100,3 +1100,96 @@ def get_dicctionary_of_regressions_optostimulation(simplified_df, shuffle_times 
 
     return reg_dicc
 
+
+def get_binned_dataframe_for_optostimulation(random_opto_df, significance=0.05):
+
+    # save all in a diccionary
+    binned_dict = {'genotype': [],
+                'performance_window': [],
+                'contra_biases': [],
+                'contra_bias_mean': [],
+                'contra_bias_std': [],
+                'contra_bias_upper_percentile': [],
+                'contra_bias_lower_percentile': [],
+                'n_sessions': [],
+                'n_animals': [],
+                'significance_expected_bias': [],
+                'number_of_significant_sessions': []}
+
+    # binned_window = 10
+    performance_windows = [[0, 60], [60, 65], [65, 70], [70, 75], [75, 80], [80, 85], [85, 90], [90, 100]]
+
+    for genot in ['D1opto', 'D2opto']:
+        # subselect the dataframe
+        genotdf = random_opto_df[random_opto_df.Genotype == genot].copy()
+
+        for bracket in performance_windows:
+            # find sessions belonging to that bracket
+            bracket_mask = np.logical_and(bracket[0] <= genotdf.session_performance,
+                                        genotdf.session_performance < bracket[1])
+            subdf = genotdf[bracket_mask].copy()
+            # extract the contralateral biases of random choices
+            contralateral_bias_exp_merge = []
+            n_sess = subdf.shape[0]
+            n_ans = len(np.unique(subdf.AnimalID))
+            for i in range(n_sess):
+                cbe = subdf.iloc[i].bias_exp
+                # get contra value
+                if subdf.iloc[i].stimulated_side == 'Left':
+                    cbe = [-x for x in cbe]
+                contralateral_bias_exp_merge.append(cbe)
+            # flatten
+            contralateral_bias_exp_merge = [item for sublist in contralateral_bias_exp_merge for item in sublist]
+
+            # append to dicc
+            binned_dict['genotype'].append(genot)
+            binned_dict['performance_window'].append(bracket[1] - 2.5)
+            binned_dict['contra_biases'].append(contralateral_bias_exp_merge)
+            binned_dict['contra_bias_mean'].append(np.mean(contralateral_bias_exp_merge))
+            binned_dict['contra_bias_std'].append(np.std(contralateral_bias_exp_merge))
+            if len(contralateral_bias_exp_merge)>1:
+                binned_dict['contra_bias_upper_percentile'].append(np.percentile(contralateral_bias_exp_merge, 97.5))
+                binned_dict['contra_bias_lower_percentile'].append(np.percentile(contralateral_bias_exp_merge, 2.5))
+            else:
+                binned_dict['contra_bias_upper_percentile'].append(np.nan)
+                binned_dict['contra_bias_lower_percentile'].append(np.nan)
+            binned_dict['n_sessions'].append(n_sess)
+            binned_dict['n_animals'].append(n_ans)
+            if genot == 'D1opto':
+                n_sig = np.sum([x > 0 for x in contralateral_bias_exp_merge])
+            if genot == 'D2opto':
+                n_sig = np.sum([x < 0 for x in contralateral_bias_exp_merge])
+            sig = n_sig / len(contralateral_bias_exp_merge)
+            binned_dict['significance_expected_bias'].append(sig)
+            
+            # calculate the number of sessions that are significant!
+            significant_sessions_list = []
+            for i in range(n_sess):
+                cbe = subdf.iloc[i].bias_exp
+                # get contra value
+                if subdf.iloc[i].stimulated_side == 'Left':
+                    cbe = [-x for x in cbe]
+                    
+                if genot == 'D1opto':
+                    n_sig = np.sum([x > 0 for x in cbe])
+                if genot == 'D2opto':
+                    n_sig = np.sum([x < 0 for x in cbe])
+                sig = n_sig / len(cbe)
+                
+                if sig < significance:
+                    significant_sessions_list.append(True)
+                else:
+                    significant_sessions_list.append(False)
+            
+            sig = np.sum(significant_sessions_list)
+            binned_dict['number_of_significant_sessions'].append(sig)
+            
+    # create df
+    binned_df = pd.DataFrame(binned_dict)
+
+    # add lower and upper std
+    binned_df['lower_std'] = binned_df.contra_bias_mean - binned_df.contra_bias_std
+    binned_df['upper_std'] = binned_df.contra_bias_mean + binned_df.contra_bias_std
+    
+    return binned_df
+

@@ -32,6 +32,9 @@ Reproduction of figures for the APE paper
 [Figure 2 BCDE](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_2_BCDE.ipynb)\
 
 
+[Figure 7 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_7_FG.ipynb)
+
+
 
 
 
