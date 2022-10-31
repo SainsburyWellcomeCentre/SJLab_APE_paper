@@ -28,7 +28,7 @@ Reproduction of figures for the APE paper
 # Colab notebooks:
 [Figure 1 C](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_C.ipynb)
 <p align="center">
-  <img src="imgs/fig1c.png" width=250 style='margin:auto'></img>
+  <img src="imgs/fig1c.png" width=250>
 </p>
 
 [Figure 1 EF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_EF.ipynb)\
