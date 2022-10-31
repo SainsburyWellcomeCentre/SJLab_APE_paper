@@ -26,7 +26,11 @@ Reproduction of figures for the APE paper
     ```
 
 # Colab notebooks:
-[Figure 1 C](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_C.ipynb)\
+[Figure 1 C](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_C.ipynb)
+<p align="center">
+  <img width="1200" src="imgs/fig1c.png">
+</p>
+
 [Figure 1 EF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_EF.ipynb)\
 [Figure 1 IJK](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_IJK.ipynb)\
 [Figure 2 BCDE](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_2_BCDE.ipynb)\
