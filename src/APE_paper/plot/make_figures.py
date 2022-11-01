@@ -675,4 +675,163 @@ def make_figure_optoinhibition_significant_sessions(sess_df):
 
     return fig
 
+
+# see all the sessions done per animal
+def make_figure_opto_da_all_mice(dao_df, ini_trials, ao_trials, example_session):
+
+    # Plot the data with the error bars for the random sampling, and the custom fitting
+    BRS = ['tStr', 'NAc']
+    PS = ['Left', 'Right']
+    PI = ['Center', 'Side']
+
+    CondList = [(dao_df['TrialIndex'] < ini_trials),
+                (dao_df['TrialIndex'] > ao_trials)]
+    ColorList = ['black', 'red']
+    LabelList = ['Normal', 'After opto']
+
+    n_cols = dao_df.groupby('AnimalID')['SessionID'].nunique().max()
+
+    fig, axs = plt.subplots(len(pd.unique(dao_df['AnimalID'])), n_cols,
+                            figsize=(5 * n_cols, 5 * len(pd.unique(dao_df['AnimalID']))),
+                            facecolor='w', edgecolor='k')
+
+    fig.subplots_adjust(hspace = .2, wspace=1)
+
+    for ax in axs.ravel(): ax.axis('off')
+
+    for an_counter, animal in enumerate(pd.unique(dao_df['AnimalID'])):
+        animal_df = dao_df[dao_df['AnimalID'] == animal]
+        
+        for counter, session in enumerate(pd.unique(animal_df['SessionID'])):
+            session_df = dao_df[dao_df['SessionID'] == session]
+            
+            ax = axs[an_counter, counter]        
+            ax.hlines(50, 0, 100, linestyles='dotted', alpha=0.4)
+
+            # overlay fits
+            for i, condition in enumerate(CondList):
+                plot_utils.plot_regression(df=session_df[condition], ax=ax,
+                                        color=ColorList[i], label=LabelList[i], plot_points=True)
+            ax.set_ylabel('Percentage of rightward choices' , fontsize=16)    
+            ax.set_xlabel('Evidence of high frequency', fontsize=16)
+            
+            ax.axis('on')
+            # remove some ticks
+            ax.tick_params(which='both', top=False, bottom='on', left='on', right=False,
+                        labelleft='on', labelbottom='on')
+            if not ax.is_first_col():
+                ax.set_ylabel('')
+                ax.set_yticks([])
+            if not ax.is_last_row():
+                ax.set_xlabel('')
+                ax.set_xticks([])
+                    
+            ax.set_ylim(-2., 102.)
+            #ax.legend(bbox_to_anchor=(1.05, 1), loc=0, borderaxespad=0.)
+            ax.tick_params(which='both', top='off', bottom='on', left='on', right='off',
+                        labelleft='on', labelbottom='on')
+            # get rid of the frame
+            for spine in ax.spines.values():
+                spine.set_visible(False)
+            
+            plt.tight_layout()
+            
+            ax.invert_xaxis()
+            
+            ax.get_legend().remove()
+            ax.text(.5,1.05, str(counter) + ': ' + (session), \
+                            horizontalalignment='center', fontweight='bold', transform=ax.transAxes)
+            ax.text(.5,1, 'No of trials: ' + str(len(animal_df[(animal_df['SessionID'] == session)])) , \
+                            horizontalalignment='center', transform=ax.transAxes)
+            # Fiber location
+            fl = BRS[int(session_df.iloc[0].FullGUI['FiberLocation']) - 1]
+            # Side
+            side = session_df.Stimulation.unique()[0]
+            ax.text(.5,.95, 'Stim location: ' + fl + ' ' + side , \
+                            horizontalalignment='center', transform=ax.transAxes)
+            # Port stimulated
+            port = PI[int(session_df.iloc[0].FullGUI['OptoState']) - 1]
+            portside = PS[int(session_df.iloc[0].FullGUI['JOPSide']) - 1]
+            ax.text(.5,.9, portside + ' stimulation in ' + port + ' port' , \
+                            horizontalalignment='center', transform=ax.transAxes)
+            
+            if session == example_session:
+                ax.set_facecolor('lightgrey')
+
+        update_progress((an_counter + 1) / len(pd.unique(dao_df['AnimalID'])))
+        
+    return fig
+
+
+def make_figure_opto_da_boxplots(opto_df_sel, hor):
+    # make a palette
+    colors=['darkslategray', 'sandybrown']
+
+    # spread of things
+    spread = .2
+    randspread = 2.3*spread
+
+    # plot
+    rel = sns.catplot(data=opto_df_sel, x='FiberArea', y='BiasToStimPort', hue='FiberArea',
+                    alpha=1, size=5, marker='o', s=10, linewidth=1, edgecolor="k",# jitter=.15,
+                    hue_order=hor,
+                    kind='swarm',
+                    height=15, aspect=8/6,
+                    palette=sns.color_palette(colors))
+
+
+    # add the distribution of the random biases, and mean and std
+    axs = rel.fig.axes
+
+    orig_y_lim = axs[0].get_ylim()[1]
+
+    #move overall title up
+    rel.fig.subplots_adjust(top=.9)
+    rel.fig.suptitle('Contralateral DA stimulation on center port', y=1.05, fontsize=16)
+    for ax in axs:
+        ax.set_ylabel('Bias to stimulated port (% of choices)', fontsize=16)
+        ax.set_xlabel('')
+        ax.hlines(0, ax.get_xlim()[0], ax.get_xlim()[1], linestyles='dotted', alpha=0.4, zorder=-2)
+        for i, pos in enumerate(ax.get_xticks()):
+            facond = opto_df_sel.FiberArea==hor[i]
+            randbiases = np.array([item for sublist in opto_df_sel[facond].RandomBiases.values for item in sublist])
+            bp = ax.boxplot(randbiases, positions=[pos+randspread], widths=0.07, 
+                            patch_artist=True, showfliers=False)
+            for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
+                plt.setp(bp[element], color='gray', linewidth=3)
+            for patch in bp['boxes']:
+                patch.set(facecolor='white')
+
+            # mean and std
+            dist_to_compare = opto_df_sel[facond].BiasToStimPort.values
+            bp = ax.boxplot(dist_to_compare, positions=[pos+spread], widths=0.07, 
+                            patch_artist=True, showfliers=False)
+            for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
+                plt.setp(bp[element], color=colors[i], linewidth=3)
+            for patch in bp['boxes']:
+                patch.set(facecolor='white')
+
+            pval = stats.ranksums(dist_to_compare, randbiases, alternative='greater').pvalue
+            ax.text(x=i+1.5*spread, y=1.2 * orig_y_lim, s='pval = {:.6}'.format(str(pval)),
+                    horizontalalignment='center', fontsize=14)
+            ax.plot([i+spread*.5, i+randspread], [orig_y_lim*1.1, orig_y_lim*1.1], color='k', linewidth=.5)
+            ax.plot([i+spread*.5, i+.5*spread], [orig_y_lim, orig_y_lim*1.1], color='k', linewidth=.5)
+            ax.plot([i+randspread, i+randspread], [orig_y_lim, orig_y_lim*1.1], color='k', linewidth=.5)
+
+        ax.set_xlim([-2*spread, 1+5*spread])
+        ax.set_xticks([spread, 1+spread])
+        
+        for tick in ax.xaxis.get_major_ticks():
+            tick.label.set_fontsize(16) 
+        for tick in ax.yaxis.get_major_ticks():
+            tick.label.set_fontsize(14)
+        
+        # keep only y axis and floating x ticks
+        ax.set_frame_on(False)
+        xmin, xmax = ax.get_xaxis().get_view_interval()
+        ax.plot((xmin, xmin), (-30, 30), color='black', linewidth=1)
+        
+        ax.set_xticklabels(hor)
     
+    return rel
+

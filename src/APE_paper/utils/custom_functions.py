@@ -1193,3 +1193,143 @@ def get_binned_dataframe_for_optostimulation(random_opto_df, significance=0.05):
     
     return binned_df
 
+
+def get_general_right_bias(df_one, df_two):
+    'returns the general bias to the right, between df_one and df_two'
+    # mean choices for each data frame for each difficulty
+    tdone = np.array(df_one['TrialHighPerc'])
+    ssone = np.array(df_one['FirstPoke'])
+    _, perf_one = get_choices(ssone, tdone)
+    tdtwo = np.array(df_two['TrialHighPerc'])
+    sstwo = np.array(df_two['FirstPoke'])
+    _, perf_two = get_choices(sstwo, tdtwo)
+    
+    return np.mean(perf_one) - np.mean(perf_two)
+
+
+def get_random_biases(df, n_times, it, aot):
+    # create array
+    rblist = np.zeros(n_times)
+    for i in range(n_times):
+        # shuffle TrialIndexes
+        df.TrialIndex = df.TrialIndex.sample(frac=1).values
+        # calculate bias
+        rblist[i] = get_general_right_bias(df[df.TrialIndex < it], df[df.TrialIndex > aot])
+    return rblist
+
+
+def get_dopamine_optostimulation_differences_dataframe(dao_df, ini_trials, ao_trials, n_times):
+    # Generate another dataset for every session containing information about the difference between
+    # the optostimulated trials and the normal ones, as well as random differences, calculated
+    # shuffling the trial indexes
+    BRS = ['tStr', 'NAc']
+    PS = ['Left', 'Right']
+    PI = ['Center', 'Side']
+    CondList = [(dao_df['TrialIndex'] < ini_trials),
+                (dao_df['TrialIndex'] > ao_trials)]
+
+    cols = ['AnimalID', 'SessionID', 'Ntrials', 'Protocol', 'Stim', 'FiberSide',\
+            'FiberArea', 'StimSide', 'StimPort', 'Contralateral', 'InitialBias', 'Bias', 'BiasToStimPort',\
+            'RandomBiases', 'RandomBiasMean', 'RandomBiasStd']
+    data = np.empty([len(pd.unique(dao_df['SessionID'])), len(cols)], dtype=object)
+
+    for i, sessionid in enumerate(pd.unique(dao_df['SessionID'])):
+        # get dataframe of the session
+        session_df = dao_df[dao_df['SessionID'] == sessionid].copy()
+        # get animal name
+        animalid = session_df.AnimalID.unique()[0]
+        # get number of trials
+        ntrials = session_df.shape[0]
+        # protocol
+        protocol = session_df.Protocol.unique()[0]
+        # is it a stimulated session?
+        stim = session_df.Stimulation.unique()[0] != 'NoStimulation'
+        # which fiber was plugged in
+        fiberside = session_df.Stimulation.unique()[0]
+        # which brain area is this fiber over
+        fiberarea = BRS[int(session_df.iloc[0].FullGUI['FiberLocation']) - 1]
+        # which one of the side ports, or trial type, was stimulated
+        stimside = PS[int(session_df.iloc[0].FullGUI['JOPSide']) - 1]
+        # in which one of the ports did stimulation occurred
+        stimport = PI[int(session_df.iloc[0].FullGUI['OptoState']) - 1]
+        # is the fiber contralateral to the port
+        contralateral = True
+        if (fiberside == stimside) or fiberside == 'Both':
+            contralateral = False
+        # what is the initial bias of the mouse in trials before stimulation
+        ini_sess = session_df[session_df.TrialIndex < ini_trials].copy()
+        initialbias = np.mean(get_choices(ini_sess['FirstPoke'], ini_sess['TrialHighPerc'])[1])
+        # what is the total bias of that session after opto
+        bias = get_general_right_bias(session_df[CondList[1]], session_df[CondList[0]])
+        # is this bias positive towards the stimulated port?
+        if stimside == 'Right':
+            biastostimport = bias
+        if stimside == 'Left':
+            biastostimport = - bias
+        # calculate random biases
+        randombiases = get_random_biases(session_df, n_times, ini_trials, ao_trials)
+        # random mean
+        randombiasmean = np.mean(randombiases)
+        # random std
+        randombiasstd = np.std(randombiases)
+        
+        # fill
+        data[i] = [animalid, sessionid, ntrials, protocol, stim, fiberside, fiberarea,\
+                stimside, stimport, contralateral, initialbias, bias, biastostimport,\
+                randombiases, randombiasmean, randombiasstd]
+        
+        update_progress(i / len(pd.unique(dao_df['SessionID'])))
+
+    # create dataframe
+    opto_df = pd.DataFrame(data, columns=cols)
+    update_progress(1)
+
+    return opto_df
+
+
+def find_indexes_of_repeated_cases(opto_df_sel, same_columns):
+    # Find indexes of repeated cases
+    equal_indexes = []
+
+    for index in opto_df_sel.index:
+        data = opto_df_sel.loc[index][same_columns].values
+        i_list = []
+        for i in opto_df_sel.index:
+            if np.array_equal(data, opto_df_sel.loc[i][same_columns].values):
+                i_list.append(i)
+        if len(i_list) > 1:
+            if i_list not in equal_indexes:
+                equal_indexes.append(i_list)
+    
+    return equal_indexes
+
+
+def merge_repeated_cases_for_dopamine_optostimulation(opto_df_sel):
+
+    # Find indexes of repeated cases
+    same_columns = ['AnimalID', 'FiberSide', 'FiberArea', 'StimSide', 'StimPort']
+    equal_indexes = find_indexes_of_repeated_cases(opto_df_sel, same_columns)
+    
+    # Combine those cases
+    for case in equal_indexes:   
+        sub_df = opto_df_sel.loc[case].copy()
+        # create new instance to add to the dataframe, initiating it in the first index of the set
+        new_element = sub_df.iloc[0].copy()
+        # change relevant values
+        new_element.SessionID = 'merge'
+        new_element.Ntrials = np.mean(sub_df.Ntrials.values)
+        new_element.Protocol = 'merge'
+        new_element.InitialBias = np.nan
+        new_element.Bias = np.nan
+        new_element.BiasToStimPort = np.mean(sub_df.BiasToStimPort.values)
+        new_element.RandomBiases = np.concatenate(sub_df.RandomBiases.values)
+        new_element.RandomBiasMean = np.mean(new_element.RandomBiases)
+        new_element.RandomBiasStd = np.std(new_element.RandomBiases)
+        # remove old indexes
+        opto_df_sel.drop(case, inplace=True)
+        # add new row
+        opto_df_sel = opto_df_sel.append(new_element)
+    opto_df_sel.sort_index(inplace=True)
+    
+    return opto_df_sel
+
