@@ -34,9 +34,7 @@ Reproduction of figures for the APE paper
 [Figure 1 EF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_EF.ipynb)\
 [Figure 1 IJK](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_IJK.ipynb)\
 [Figure 2 BCDE](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_2_BCDE.ipynb)\
-[Figure 7 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_7_FG.ipynb)
-
-This needs to get fixed in nailgun:
+[Figure 7 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_7_FG.ipynb)\
 [Figure 6 CDF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_6_CDF.ipynb)
 
 

@@ -763,7 +763,7 @@ def make_figure_opto_da_all_mice(dao_df, ini_trials, ao_trials, example_session)
     return fig
 
 
-def make_figure_opto_da_boxplots(opto_df_sel, hor):
+def make_figure_opto_da_boxplots(opto_df_sel, hor, tit):
     # make a palette
     colors=['darkslategray', 'sandybrown']
 
@@ -787,7 +787,7 @@ def make_figure_opto_da_boxplots(opto_df_sel, hor):
 
     #move overall title up
     rel.fig.subplots_adjust(top=.9)
-    rel.fig.suptitle('Contralateral DA stimulation on center port', y=1.05, fontsize=16)
+    rel.fig.suptitle(tit, y=1.05, fontsize=16)
     for ax in axs:
         ax.set_ylabel('Bias to stimulated port (% of choices)', fontsize=16)
         ax.set_xlabel('')
