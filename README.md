@@ -1,6 +1,7 @@
 # APE_paper
-Reproduction of figures for the APE paper
+Reproduction of figures for the [APE paper](https://www.biorxiv.org/content/10.1101/2022.09.12.507572v1)
 
+Francesca Greenstreet, Hernando Vergara, Sthitapranjya Pati, Laura Schwarz, Matthew Wisdom, Fred Marbach, Yvonne Johansson, Lars Rollik, Theodore Moskovitz, Claudia Clopath, Marcus Stephenson-Jones, "Action prediction error: a value-free dopaminergic teaching signal that drives stable learning." bioRxiv, 2022.
 
 # Installation
 
@@ -13,13 +14,26 @@ Reproduction of figures for the APE paper
     conda activate APE_paper
     ```
 
-3. change the current directory to that of the cloned repo
+3. install the tool to analyse the behavior
+    ### Option 1: from PyPi
+    ```
+    pip install mouse-behaviour-analysis-tools
+    ```
+
+    ### Option 2: from the tools repo
+    https://github.com/HernandoMV/mouse-behavior-analysis-tools
+
+    With this option it will be easier for you to change things from the functions directly,
+    such as plotting options.
+
+    3.2.1. clone the repo
+    3.2.2. change the current directory to that of the cloned repo
 
     ```
     cd APE_paper
     ```
 
-4. in the root directory of the cloned repo type
+    3.2.3. in the root directory of the cloned repo type
 
     ```
     pip install -e .
