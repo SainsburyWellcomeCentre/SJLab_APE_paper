@@ -40,18 +40,13 @@ Francesca Greenstreet, Hernando Vergara, Sthitapranjya Pati, Laura Schwarz, Matt
     ```
 
 # Colab notebooks:
-[Figure 1 C](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_C.ipynb)
+[Figure 1 C](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_1_C.ipynb)
 <p align="left">
-  <img src="doc/imgs/fig1c.png" width=250>
+  <img src="docs/imgs/fig1c.png" width=250>
 </p>
 
-[Figure 1 EF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_EF.ipynb)\
-[Figure 1 IJK](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_1_IJK.ipynb)\
-[Figure 2 BCDE](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_2_BCDE.ipynb)\
-[Figure 7 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_7_FG.ipynb)\
-[Figure 6 CDF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/doc/figures_notebooks/Figure_6_CDF.ipynb)
-
-
-
-
-
+[Figure 1 EF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_1_EF.ipynb)\
+[Figure 1 IJK](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_1_IJK.ipynb)\
+[Figure 2 BCDE](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_2_BCDE.ipynb)\
+[Figure 7 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_7_FG.ipynb)\
+[Figure 6 CDF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_6_CDF.ipynb)
