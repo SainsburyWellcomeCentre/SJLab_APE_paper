@@ -10,7 +10,10 @@ Welcome to APE_paper's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+TeacherAPI models
+=================
+.. automodule:: test
+   :members:
 
 
 Indices and tables
