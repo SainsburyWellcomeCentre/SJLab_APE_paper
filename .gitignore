@@ -3,3 +3,4 @@
 .ipynb_checkpoints/
 data/*.csv
 docs/sphinx/_build/
+docs/sphinx/auto_examples/

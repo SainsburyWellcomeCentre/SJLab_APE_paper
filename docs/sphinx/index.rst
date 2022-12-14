@@ -13,6 +13,13 @@ Welcome to APE_paper's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+.. toctree::
+   :glob:
+   :maxdepth: 1
+   :caption: Examples:
+
+   auto_examples/index
+   
 Indices and tables
 ==================
 
