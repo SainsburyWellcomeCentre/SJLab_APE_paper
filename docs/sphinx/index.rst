@@ -6,15 +6,12 @@
 Welcome to APE_paper's documentation!
 =====================================
 
+.. automodule:: example
+    :members:
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: Contents:
-
-TeacherAPI models
-=================
-.. automodule:: test
-   :members:
-
 
 Indices and tables
 ==================

@@ -2,6 +2,9 @@ import numpy as np
 
 
 def maths(a, b):
+    '''
+    bla bla bla
+    '''
     return a + b
 
 
