@@ -2,3 +2,4 @@
 *.egg-info/
 .ipynb_checkpoints/
 data/*.csv
+docs/sphinx/_build/
