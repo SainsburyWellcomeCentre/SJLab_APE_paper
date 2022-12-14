@@ -3,6 +3,9 @@ Reproduction of figures for the [APE paper](https://www.biorxiv.org/content/10.1
 
 Francesca Greenstreet, Hernando Vergara, Sthitapranjya Pati, Laura Schwarz, Matthew Wisdom, Fred Marbach, Yvonne Johansson, Lars Rollik, Theodore Moskovitz, Claudia Clopath, Marcus Stephenson-Jones, "Action prediction error: a value-free dopaminergic teaching signal that drives stable learning." bioRxiv, 2022.
 
+
+See documentation [here](https://hernandomv.github.io/APE_paper/)
+
 # Installation
 
 1. clone this repo
