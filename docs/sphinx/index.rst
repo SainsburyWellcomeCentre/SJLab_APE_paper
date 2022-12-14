@@ -10,7 +10,7 @@ Welcome to APE_paper's documentation!
     :members:
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 2
    :caption: Contents:
 
 Indices and tables
