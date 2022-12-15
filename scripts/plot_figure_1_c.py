@@ -65,7 +65,7 @@ mus_df = pd.read_csv(dataset_path, index_col=0)
 
 # see a summary of the dataset
 fig = make_figures.make_figure_muscimol_sessions_overview(mus_df)
-plt.show(fig)
+fig
 # uncomment here to save the plot
 # data_directory = ''
 # plt.savefig(data_directory + 'Muscimol-sessions-per-mouse.pdf',
@@ -100,7 +100,7 @@ colorlist = [(0.24715576, 0.49918708, 0.57655991),
              (46/255, 122/255 , 11/255)]
 
 fig = make_figures.make_figure_muscimol_psychometric(PP_array, text_for_figure, colorlist)
-plt.show(fig)
+fig
 # uncomment here to save the plot
 # data_directory = ''
 # plt.savefig(data_directory + 'Figure1C.pdf',
