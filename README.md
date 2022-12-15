@@ -1,7 +1,7 @@
 # APE_paper
 Reproduction of figures for the [APE paper](https://www.biorxiv.org/content/10.1101/2022.09.12.507572v1)
 
-<p align="left">
+<p align="center">
   <img src="docs/imgs/summary.png" width=450>
 </p>
 
@@ -54,12 +54,12 @@ Francesca Greenstreet, Hernando Vergara, Sthitapranjya Pati, Laura Schwarz, Matt
 
 [Figure 1 EF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_1_EF.ipynb)
 <p align="left">
-  <img src="docs/imgs/fig1ef.png" width=250>
+  <img src="docs/imgs/fig1ef.png" width=450>
 </p>
 
 [Figure 1 IJK](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_1_IJK.ipynb)
 <p align="left">
-  <img src="docs/imgs/fig1ijk.png" width=250>
+  <img src="docs/imgs/fig1ijk.png" width=450>
 </p>
 
 [Figure 2 BCDE](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_2_BCDE.ipynb)\
