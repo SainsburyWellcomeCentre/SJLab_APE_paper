@@ -62,8 +62,21 @@ Francesca Greenstreet, Hernando Vergara, Sthitapranjya Pati, Laura Schwarz, Matt
   <img src="docs/imgs/fig1ijk.png" width=450>
 </p>
 
-[Figure 2 BCDE](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_2_BCDE.ipynb)\
-[Figure 6 CDF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_6_CDF.ipynb)\
-[Figure 7 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_7_FG.ipynb)\
+[Figure 2 BCDE](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_2_BCDE.ipynb)
+<p align="left">
+  <img src="docs/imgs/fig2b.png" width=250>
+  <img src="docs/imgs/fig2cde.png" width=450>
+</p>
 
+[Figure 6 CDF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_6_CDF.ipynb)
+<p align="left">
+  <img src="docs/imgs/fig6c.png" width=250>
+  <img src="docs/imgs/fig6d.png" width=250>
+  <img src="docs/imgs/fig6f.png" width=250>
+</p>
+
+[Figure 7 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_7_FG.ipynb)\
+<p align="left">
+  <img src="docs/imgs/fig7fg.png" width=450>
+</p>
 
