@@ -72,7 +72,7 @@ Francesca Greenstreet, Hernando Vergara, Sthitapranjya Pati, Laura Schwarz, Matt
 <p align="left">
   <img src="docs/imgs/fig6c.png" width=250>
   <img src="docs/imgs/fig6d.png" width=250>
-  <img src="docs/imgs/fig6f.png" width=250>
+  <img src="docs/imgs/fig6f.png" width=100>
 </p>
 
 [Figure 7 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_7_FG.ipynb)\
