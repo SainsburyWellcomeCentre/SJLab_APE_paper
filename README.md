@@ -8,13 +8,17 @@ Reproduction of figures for the [APE paper](https://www.biorxiv.org/content/10.1
 Francesca Greenstreet, Hernando Vergara, Sthitapranjya Pati, Laura Schwarz, Matthew Wisdom, Fred Marbach, Yvonne Johansson, Lars Rollik, Theodore Moskovitz, Claudia Clopath, Marcus Stephenson-Jones, "Action prediction error: a value-free dopaminergic teaching signal that drives stable learning." bioRxiv, 2022.
 
 
-### See documentation [here](https://hernandomv.github.io/APE_paper/)
+### See documentation (scripts to generate figures) [here](https://hernandomv.github.io/APE_paper/)
 
-# Installation
+# To run things locally in your machine:
 
 1. clone this repo
 
-2. create the environment (optional)
+```
+git clone https://github.com/HernandoMV/APE_paper.git
+```
+
+2. create the environment (optional). Otherwise you might need to install some dependencies manually.
 
     ```
     conda env create -f environment.yml
@@ -34,6 +38,11 @@ Francesca Greenstreet, Hernando Vergara, Sthitapranjya Pati, Laura Schwarz, Matt
     such as plotting options.
 
     3.2.1. clone the repo
+
+    ```
+    git clone https://github.com/HernandoMV/mouse-behavior-analysis-tools.git
+    ```
+
     3.2.2. change the current directory to that of the cloned repo
 
     ```
@@ -46,7 +55,11 @@ Francesca Greenstreet, Hernando Vergara, Sthitapranjya Pati, Laura Schwarz, Matt
     pip install -e .
     ```
 
-# Colab notebooks:
+4. run the scripts in `scripts` folder, or download them in script or notebook format from the [documentation](https://hernandomv.github.io/APE_paper/)
+
+
+# Run the Google Colab notebooks directly in your browser:
+
 [Figure 1 C](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_1_C.ipynb)
 <p align="left">
   <img src="docs/imgs/fig1c.png" width=250>
@@ -75,7 +88,7 @@ Francesca Greenstreet, Hernando Vergara, Sthitapranjya Pati, Laura Schwarz, Matt
   <img src="docs/imgs/fig6f.png" width=150>
 </p>
 
-[Figure 7 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_7_FG.ipynb)\
+[Figure 7 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_7_FG.ipynb)
 <p align="left">
   <img src="docs/imgs/fig7fg.png" width=450>
 </p>
