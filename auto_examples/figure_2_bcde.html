@@ -1,0 +1,548 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>7. Separate performance on high and low tones &mdash; APE_paper  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Figure 1 IJK" href="figure_1_ijk.html" />
+    <link rel="prev" title="Figure 1 C" href="plot_figure_1_c.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> APE_paper
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Scripts to reproduce the figures</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_figure_1_c.html">Figure 1 C</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">7. Separate performance on high and low tones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="figure_1_ijk.html">Figure 1 IJK</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">APE_paper</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Scripts to reproduce the figures</a> &raquo;</li>
+        
+      <li>7. Separate performance on high and low tones</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/auto_examples/figure_2_bcde.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-figure-2-bcde-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<p class="sphx-glr-example-title" id="sphx-glr-auto-examples-figure-2-bcde-py">Figure_2_BCDE.ipynb</p>
+<p>Automatically generated by Colaboratory.</p>
+<dl class="simple">
+<dt>Original file is located at</dt><dd><p><a class="reference external" href="https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_2_BCDE.ipynb">https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_2_BCDE.ipynb</a></p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># This notebook performs a statistical analysis on the learning rates between two groups of mice.</span>
+<span class="c1"># Performs model fitting of individual mice, comparison of parameter, and statistical analysis</span>
+<span class="c1"># between the groups to conclude differences and points of divergence in learning</span>
+
+<span class="c1"># Commented out IPython magic to ensure Python compatibility.</span>
+<span class="c1"># run this on Colab</span>
+<span class="c1"># !rm -rf APE_paper/</span>
+<span class="c1"># !git clone https://github.com/HernandoMV/APE_paper.git</span>
+<span class="c1"># %pip install mouse-behavior-analysis-tools</span>
+<span class="c1"># %cd APE_paper/docs/figures_notebooks</span>
+</pre></div>
+</div>
+<p>Commented out IPython magic to ensure Python compatibility.
+%load_ext autoreload
+%autoreload 2</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">clear_output</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">exists</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span>
+
+<span class="kn">from</span> <span class="nn">mouse_behavior_analysis_tools.utils</span> <span class="kn">import</span> <span class="n">custom_functions</span> <span class="k">as</span> <span class="n">cuf</span>
+<span class="kn">from</span> <span class="nn">mouse_behavior_analysis_tools.utils.misc_utils</span> <span class="kn">import</span> <span class="n">update_progress</span>
+<span class="kn">from</span> <span class="nn">mouse_behavior_analysis_tools.plot</span> <span class="kn">import</span> <span class="n">make_figures</span>
+<span class="kn">from</span> <span class="nn">mouse_behavior_analysis_tools.model</span> <span class="kn">import</span> <span class="n">behavior_model</span> <span class="k">as</span> <span class="n">bm</span>
+<span class="kn">from</span> <span class="nn">mouse_behavior_analysis_tools.utils</span> <span class="kn">import</span> <span class="n">model_utils</span>
+
+<span class="n">clear_output</span><span class="p">()</span>
+
+<span class="c1"># This dataset has been pre-processed, but conditions have not been selected</span>
+<span class="c1"># This preprocessing includes removal of disengaged trials and</span>
+<span class="c1"># removal of the first 5 trials of each session</span>
+
+<span class="c1"># download data from server</span>
+<span class="n">dataset_name</span> <span class="o">=</span> <span class="s1">&#39;6OHDA_dataframe.csv&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://zenodo.org/record/7261639/files/&quot;</span> <span class="o">+</span> <span class="n">dataset_name</span>
+<span class="n">dataset_path</span> <span class="o">=</span> <span class="s1">&#39;../data/&#39;</span> <span class="o">+</span> <span class="n">dataset_name</span>
+<span class="c1"># download if data is not there</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloading data...&#39;</span><span class="p">)</span>
+    <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">dataset_path</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data already in directory&#39;</span><span class="p">)</span>
+<span class="c1"># load</span>
+<span class="n">df_to_plot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># load the image data</span>
+<span class="n">image_dataset_name</span> <span class="o">=</span> <span class="s1">&#39;6OHDA_image-data.csv&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://zenodo.org/record/7261639/files/&quot;</span> <span class="o">+</span> <span class="n">image_dataset_name</span>
+<span class="n">image_dataset_path</span> <span class="o">=</span> <span class="s1">&#39;../data/&#39;</span> <span class="o">+</span> <span class="n">image_dataset_name</span>
+<span class="c1"># download if data is not there</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">image_dataset_path</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloading data...&#39;</span><span class="p">)</span>
+    <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">image_dataset_path</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data already in directory&#39;</span><span class="p">)</span>
+<span class="c1"># load</span>
+<span class="n">iar</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">image_dataset_path</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># parameters for the plotting</span>
+<span class="n">hue_order</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CortexBuffer&#39;</span><span class="p">,</span> <span class="s1">&#39;6OHDAtail&#39;</span><span class="p">]</span>
+<span class="n">color_palette</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.24715576</span><span class="p">,</span> <span class="mf">0.49918708</span><span class="p">,</span> <span class="mf">0.57655991</span><span class="p">),</span>
+             <span class="p">(</span><span class="mf">0.72162039</span><span class="p">,</span> <span class="mf">0.3669119</span> <span class="p">,</span> <span class="mf">0.22526315</span><span class="p">)]</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_palette</span><span class="p">(</span><span class="n">color_palette</span><span class="p">)</span>
+
+<span class="c1"># maximum number of trials performed per mouse in the dataset:</span>
+<span class="n">df_to_plot</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">,</span> <span class="s1">&#39;ExperimentalGroup&#39;</span><span class="p">,</span> <span class="s1">&#39;Protocol&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()[</span><span class="s1">&#39;CumulativeTrialNumberByProtocol&#39;</span><span class="p">]</span>
+
+<span class="sd">&quot;&quot;&quot;#### Performance by session and 200-sized bins &quot;&quot;&quot;</span>
+
+<span class="c1"># bin trials every 200</span>
+<span class="n">df_to_plot</span><span class="p">[</span><span class="s2">&quot;TrialIndexBinned200&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_to_plot</span><span class="o">.</span><span class="n">CumulativeTrialNumberByProtocol</span> <span class="o">//</span> <span class="mi">200</span><span class="p">)</span> <span class="o">*</span> <span class="mi">200</span> <span class="o">+</span> <span class="mi">100</span>
+
+<span class="c1"># Sanity check on the data to see that it looks good</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">make_figures</span><span class="o">.</span><span class="n">make_figure_performance_trials_animals_bin</span><span class="p">(</span><span class="n">df_to_plot</span><span class="p">)</span>
+<span class="n">clear_output</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="c1"># uncomment here to save the plot</span>
+<span class="c1"># data_directory = &#39;&#39;</span>
+<span class="c1"># plt.savefig(data_directory + &#39;Performance_by_session_individual_animals.pdf&#39;,</span>
+<span class="c1">#             transparent=True, bbox_inches=&#39;tight&#39;)</span>
+
+<span class="sd">&quot;&quot;&quot;Colored dots show the performance of the past 100 trials using an average running window. Each color represents a distinct session. The black line shows the performance value of the past 200 trials using trial bining.</span>
+
+<span class="sd">#### Fit a sigmoid to every mouse to calculate and compare stages and learning rates</span>
+
+<span class="sd">The sigmoid function is (perf_end - 0.5) / (1 + np.exp(-slope * (x - bias))) + 0.5</span>
+
+<span class="sd">Data is scaled before the fitting and parameters are rescaled afterwards</span>
+
+<span class="sd">The maximum performace possible is defined as the maximum of the median of the trials binned every 200</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#calculate the maximum performance for every mouse based on the trials binned every 200</span>
+<span class="n">df_bin200tr</span> <span class="o">=</span> <span class="n">df_to_plot</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">,</span><span class="s1">&#39;ExperimentalGroup&#39;</span><span class="p">,</span><span class="s1">&#39;TrialIndexBinned200&#39;</span><span class="p">,</span><span class="s1">&#39;Protocol&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">mouse_max_perf</span> <span class="o">=</span> <span class="n">df_bin200tr</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[[</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">,</span> <span class="s1">&#39;CurrentPastPerformance100&#39;</span><span class="p">]]</span>
+
+<span class="c1"># fit the model</span>
+<span class="n">fit_df</span> <span class="o">=</span> <span class="n">bm</span><span class="o">.</span><span class="n">get_df_of_behavior_model_by_animal</span><span class="p">(</span><span class="n">df_to_plot</span><span class="p">,</span> <span class="n">mouse_max_perf</span><span class="p">)</span>
+
+<span class="c1"># find the steepest point of each slope (max of derivative)</span>
+<span class="n">der_max_dir</span> <span class="o">=</span> <span class="n">bm</span><span class="o">.</span><span class="n">get_steepest_point_of_slope</span><span class="p">(</span><span class="n">fit_df</span><span class="p">)</span>
+
+<span class="c1"># plot the curves again pointing to the maximum</span>
+<span class="c1"># sanity check to see that these scaled values recreate the curves</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">make_figures</span><span class="o">.</span><span class="n">make_figure_performance_trials_animals_model</span><span class="p">(</span><span class="n">df_to_plot</span><span class="p">,</span> <span class="n">fit_df</span><span class="p">,</span> <span class="n">der_max_dir</span><span class="p">)</span>
+<span class="n">clear_output</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="c1"># plt.savefig(data_directory + &#39;Sigmoid_fitting.pdf&#39;, transparent=True, bbox_inches=&#39;tight&#39;)</span>
+
+<span class="sd">&quot;&quot;&quot;As a learning speed measure I use the point of the maximum learning rate, which is the maximum of the derivative of the fitting, which is also the middle point of the curve (in between 50% and maximum performance)</span>
+<span class="sd">The bias indicates where this point lies in the x axis: at which trial number this point is reached</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># add the maximum value of the derivative to the fit_df dataframe</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">der_max_dir</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">fit_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fit_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">fit_df</span><span class="p">[</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;max_of_der&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="sd">&quot;&quot;&quot;### Merge with image data&quot;&quot;&quot;</span>
+
+<span class="n">merged_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">fit_df</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">iar</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;mouse id&#39;</span><span class="p">)[</span>
+    <span class="p">[</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;maximum_performance&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;bias&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;ExperimentalGroup&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;max_of_der&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;median_performance_reached_in_last_ntrials&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;n trials to criterion&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;max performance reached&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;ratio posterior/anterior&#39;</span><span class="p">]</span>
+<span class="p">]</span>
+
+<span class="sd">&quot;&quot;&quot;##### The following cell creates **Figure 2 E** from the paper&quot;&quot;&quot;</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">make_figures</span><span class="o">.</span><span class="n">make_figure_6ohda_lesion_correlation</span><span class="p">(</span><span class="n">merged_df</span><span class="p">,</span> <span class="n">color_palette</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="c1"># plt.savefig(data_directory + &#39;6ohda_lesion-correlation.pdf&#39;, transparent=True, bbox_inches=&#39;tight&#39;)</span>
+
+<span class="c1"># There is one lesioned animal that is very close to the controls in terms of the lesioned area:</span>
+<span class="n">merged_df</span><span class="p">[[</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">,</span> <span class="s1">&#39;ExperimentalGroup&#39;</span><span class="p">,</span> <span class="s1">&#39;ratio posterior/anterior&#39;</span><span class="p">]]</span>
+
+<span class="c1"># Remove this animal from the study</span>
+<span class="n">ans_to_remove</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SomFlp08&#39;</span><span class="p">]</span>
+<span class="c1"># ans_to_remove = []</span>
+<span class="n">df_to_plot</span> <span class="o">=</span> <span class="n">df_to_plot</span><span class="p">[</span><span class="o">~</span><span class="n">df_to_plot</span><span class="o">.</span><span class="n">AnimalID</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">ans_to_remove</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">fit_df</span> <span class="o">=</span> <span class="n">fit_df</span><span class="p">[</span><span class="o">~</span><span class="n">fit_df</span><span class="o">.</span><span class="n">AnimalID</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">ans_to_remove</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Animals removed from the following analysis based on this:&#39;</span><span class="p">,</span> <span class="n">ans_to_remove</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;### Differences of parameters between groups&quot;&quot;&quot;</span>
+
+<span class="c1"># calculate significance</span>
+<span class="n">parameters_to_show</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;maximum_performance&#39;</span><span class="p">,</span> <span class="s1">&#39;max_of_der&#39;</span><span class="p">]</span>
+<span class="c1"># define three levels of significance for the plotting</span>
+<span class="n">sig_levels</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">]</span>
+<span class="n">pvals</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Kluskal-Wallis tests on the parameters&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">parameters_to_show</span><span class="p">:</span>
+    <span class="n">kt</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">kruskal</span><span class="p">(</span><span class="n">fit_df</span><span class="p">[</span><span class="n">fit_df</span><span class="o">.</span><span class="n">ExperimentalGroup</span><span class="o">==</span><span class="n">hue_order</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span>
+                       <span class="n">fit_df</span><span class="p">[</span><span class="n">fit_df</span><span class="o">.</span><span class="n">ExperimentalGroup</span><span class="o">==</span><span class="n">hue_order</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span> <span class="n">var</span> <span class="o">+</span> <span class="s1">&#39;:</span><span class="se">\t\t</span><span class="s1">pvalue: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">kt</span><span class="o">.</span><span class="n">pvalue</span><span class="p">)</span> <span class="p">)</span>
+    <span class="n">pvals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kt</span><span class="o">.</span><span class="n">pvalue</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;##### The following cell creates **Figures 2 C, D** from the paper&quot;&quot;&quot;</span>
+
+<span class="c1"># compare the parameters between groups</span>
+<span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;maximum</span><span class="se">\n</span><span class="s1">performance&#39;</span><span class="p">,</span> <span class="s1">&#39;maximum</span><span class="se">\n</span><span class="s1">learning rate&#39;</span><span class="p">]</span>
+<span class="n">ylabs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;task performance (%)&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u0394</span><span class="s1">performance </span><span class="se">\u00D7</span><span class="s1"> trials$\mathregular{^{-1}}$&#39;</span><span class="p">]</span>
+<span class="n">yvals</span> <span class="o">=</span> <span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">]</span> <span class="c1"># for the statistics</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">make_figures</span><span class="o">.</span><span class="n">make_figure_learning_parameters_between_groups</span><span class="p">(</span><span class="n">fit_df</span><span class="p">,</span> <span class="n">parameters_to_show</span><span class="p">,</span>
+                                                                  <span class="n">titles</span><span class="p">,</span> <span class="n">ylabs</span><span class="p">,</span>
+                                                                  <span class="n">pvals</span><span class="p">,</span> <span class="n">sig_levels</span><span class="p">,</span>
+                                                                  <span class="n">color_palette</span><span class="p">,</span> <span class="n">hue_order</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+
+<span class="c1"># plt.savefig(data_directory + &#39;Parameters_group_comparison.pdf&#39;, transparent=True, bbox_inches=&#39;tight&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sig_levels</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;asterisks: pval &lt;&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+
+
+
+<span class="sd">&quot;&quot;&quot;### calculate the statistical differences of performances between groups at different points in learning</span>
+
+<span class="sd">##### The following cell creates the first part of **Figure 2 B** from the paper</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Performance differences between groups across learning</span>
+<span class="n">col_to_plot</span> <span class="o">=</span> <span class="s1">&#39;CurrentPastPerformance100&#39;</span>
+<span class="n">fig1</span> <span class="o">=</span> <span class="n">make_figures</span><span class="o">.</span><span class="n">make_figure_differences_performance_between_groups</span><span class="p">(</span><span class="n">df_to_plot</span><span class="p">,</span> <span class="n">col_to_plot</span><span class="p">,</span>
+                                                                       <span class="n">hue_order</span><span class="p">,</span> <span class="n">color_palette</span><span class="p">)</span>
+
+<span class="c1"># plt.savefig(data_directory + &#39;Performance_between_groups.pdf&#39;, transparent=True, bbox_inches=&#39;tight&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Shaded area indicates std, and performance is calculated using&#39;</span><span class="p">,</span> <span class="n">col_to_plot</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="separate-performance-on-high-and-low-tones">
+<h1>7. Separate performance on high and low tones<a class="headerlink" href="#separate-performance-on-high-and-low-tones" title="Permalink to this heading">¶</a></h1>
+<p>create a mask for the TrialHighPerc columns</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">high_mask</span> <span class="o">=</span> <span class="n">df_to_plot</span><span class="p">[</span><span class="s1">&#39;TrialHighPerc&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">98.0</span>
+<span class="n">low_mask</span> <span class="o">=</span> <span class="n">df_to_plot</span><span class="p">[</span><span class="s1">&#39;TrialHighPerc&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">2.0</span>
+<span class="n">df_high</span> <span class="o">=</span> <span class="n">df_to_plot</span><span class="p">[</span><span class="n">high_mask</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_low</span> <span class="o">=</span> <span class="n">df_to_plot</span><span class="p">[</span><span class="n">low_mask</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># reset the index and the cumulative trial number by protocol</span>
+<span class="n">df_high</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_low</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_high</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_low</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Restart the count of CumulativeTrialNumber for every protocol</span>
+<span class="n">df_high</span><span class="p">[</span><span class="s1">&#39;CumulativeTrialNumberByProtocol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">df_low</span><span class="p">[</span><span class="s1">&#39;CumulativeTrialNumberByProtocol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+<span class="k">for</span> <span class="n">Aid</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_high</span><span class="p">[</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">Prot</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_high</span><span class="p">[</span><span class="s1">&#39;Protocol&#39;</span><span class="p">]):</span>
+        <span class="n">conditions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">df_high</span><span class="p">[</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">Aid</span><span class="p">,</span> <span class="n">df_high</span><span class="p">[</span><span class="s1">&#39;Protocol&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">Prot</span><span class="p">)</span>
+        <span class="n">df_high</span><span class="o">.</span><span class="n">CumulativeTrialNumberByProtocol</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_high</span><span class="p">[</span><span class="n">conditions</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_high</span><span class="p">[</span><span class="n">conditions</span><span class="p">]))</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">Aid</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_low</span><span class="p">[</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">Prot</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_low</span><span class="p">[</span><span class="s1">&#39;Protocol&#39;</span><span class="p">]):</span>
+        <span class="n">conditions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">df_low</span><span class="p">[</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">Aid</span><span class="p">,</span> <span class="n">df_low</span><span class="p">[</span><span class="s1">&#39;Protocol&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">Prot</span><span class="p">)</span>
+        <span class="n">df_low</span><span class="o">.</span><span class="n">CumulativeTrialNumberByProtocol</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_low</span><span class="p">[</span><span class="n">conditions</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_low</span><span class="p">[</span><span class="n">conditions</span><span class="p">]))</span> <span class="o">+</span> <span class="mi">1</span>
+
+
+<span class="c1"># calculate performance</span>
+<span class="n">PAST_WINDOW</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">CumPerListHigh</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">CumPerListLow</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">Sid</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_to_plot</span><span class="p">[</span><span class="s1">&#39;SessionID&#39;</span><span class="p">]):</span>
+    <span class="n">CumPerListHigh</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cuf</span><span class="o">.</span><span class="n">perf_window_calculator</span><span class="p">(</span><span class="n">df_high</span><span class="p">[</span><span class="n">df_high</span><span class="p">[</span><span class="s1">&#39;SessionID&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">Sid</span><span class="p">],</span>
+                                                     <span class="n">PAST_WINDOW</span><span class="p">))</span>
+    <span class="n">CumPerListLow</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cuf</span><span class="o">.</span><span class="n">perf_window_calculator</span><span class="p">(</span><span class="n">df_low</span><span class="p">[</span><span class="n">df_low</span><span class="p">[</span><span class="s1">&#39;SessionID&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">Sid</span><span class="p">],</span>
+                                                     <span class="n">PAST_WINDOW</span><span class="p">))</span>
+<span class="c1"># flatten the list of lists</span>
+<span class="n">df_high</span><span class="p">[</span><span class="s1">&#39;CurrentPastPerformance100biasremoved&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CumPerListHigh</span><span class="p">])))</span>
+<span class="n">df_low</span><span class="p">[</span><span class="s1">&#39;CurrentPastPerformance100biasremoved&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CumPerListLow</span><span class="p">])))</span>
+</pre></div>
+</div>
+<p>Plot performance on high and low tones</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">col_to_plot</span> <span class="o">=</span> <span class="s1">&#39;CurrentPastPerformance100biasremoved&#39;</span>
+<span class="n">figX</span> <span class="o">=</span> <span class="n">make_figures</span><span class="o">.</span><span class="n">make_figure_differences_performance_between_groups</span><span class="p">(</span><span class="n">df_high</span><span class="p">,</span> <span class="n">col_to_plot</span><span class="p">,</span>
+                                                                       <span class="n">hue_order</span><span class="p">,</span> <span class="n">color_palette</span><span class="p">)</span>
+<span class="n">data_directory</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;6OHDA_Performance_between_groups_high_tones.pdf&#39;</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">figX</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;#### Calculate the significance by resampling: suffle the group labels multiple times and calculate the likelihood of observing this data</span>
+<span class="sd">The shuffling respects the proportion of mice in every group.</span>
+
+<span class="sd">References:</span>
+
+<span class="sd">Supplementary figure 4 in here: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2562676/</span>
+
+<span class="sd">See also methods here: https://www.biorxiv.org/content/10.1101/716274v3.full</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># define a 100-trial window to bin the data</span>
+<span class="n">xbin</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">df_to_plot</span><span class="p">[</span><span class="s2">&quot;TrialIndexBinned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_to_plot</span><span class="o">.</span><span class="n">CumulativeTrialNumberByProtocol</span> <span class="o">//</span> <span class="n">xbin</span><span class="p">)</span> <span class="o">*</span> <span class="n">xbin</span> <span class="o">+</span> <span class="n">xbin</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Trials are binned in groups of&#39;</span><span class="p">,</span> <span class="n">xbin</span><span class="p">)</span>
+
+<span class="c1"># groupby so each animal has a mean of the performance in each bin</span>
+<span class="n">df_bintr</span> <span class="o">=</span> <span class="n">df_to_plot</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">,</span><span class="s1">&#39;ExperimentalGroup&#39;</span><span class="p">,</span><span class="s1">&#39;TrialIndexBinned&#39;</span><span class="p">,</span><span class="s1">&#39;Protocol&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># create a scaled version of the performance</span>
+<span class="n">df_bintr</span><span class="p">[</span><span class="s1">&#39;Performance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_bintr</span><span class="o">.</span><span class="n">FirstPokeCorrect</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># calculate the differences of the real means using the binned data</span>
+<span class="n">real_data_pd</span> <span class="o">=</span> <span class="n">df_bintr</span><span class="p">[</span><span class="n">df_bintr</span><span class="o">.</span><span class="n">ExperimentalGroup</span> <span class="o">==</span> <span class="n">hue_order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;TrialIndexBinned&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="s1">&#39;Performance&#39;</span><span class="p">]</span> <span class="o">-</span>\
+               <span class="n">df_bintr</span><span class="p">[</span><span class="n">df_bintr</span><span class="o">.</span><span class="n">ExperimentalGroup</span> <span class="o">==</span> <span class="n">hue_order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;TrialIndexBinned&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="s1">&#39;Performance&#39;</span><span class="p">]</span>
+
+<span class="c1"># Select the amount of times to shuffle. Originally this is done 10,000 times</span>
+<span class="c1"># use a smaller number to speed things up</span>
+<span class="n">nsh</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data is shuffled&#39;</span><span class="p">,</span> <span class="n">nsh</span><span class="p">,</span> <span class="s1">&#39;times&#39;</span><span class="p">)</span>
+
+<span class="c1"># select the important columns to get the shuffled data</span>
+<span class="n">df_colsel</span> <span class="o">=</span> <span class="n">df_bintr</span><span class="p">[[</span><span class="s1">&#39;AnimalID&#39;</span><span class="p">,</span> <span class="s1">&#39;ExperimentalGroup&#39;</span><span class="p">,</span> <span class="s1">&#39;TrialIndexBinned&#39;</span><span class="p">,</span> <span class="s1">&#39;Performance&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="c1"># get the shuffled data</span>
+<span class="n">shrdf</span> <span class="o">=</span> <span class="n">cuf</span><span class="o">.</span><span class="n">get_shuffled_means_difference_df</span><span class="p">(</span><span class="n">df_colsel</span><span class="p">,</span> <span class="n">hue_order</span><span class="p">,</span> <span class="n">nsh</span><span class="p">)</span>
+
+<span class="c1"># calculate the confidence intervals for the shuffled data</span>
+<span class="n">pos_ci</span> <span class="o">=</span> <span class="n">shrdf</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;TrialIndexBinned&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">.95</span><span class="p">)</span>
+<span class="n">neg_ci</span> <span class="o">=</span> <span class="n">shrdf</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;TrialIndexBinned&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">.05</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;##### The following cell creates the second part of **Figure 2 B** from the paper</span>
+
+<span class="sd">This shows how likely is that each time point crosses &#39;random&#39; line (point-base significance).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">fig2</span> <span class="o">=</span> <span class="n">make_figures</span><span class="o">.</span><span class="n">make_figure_differences_performance_significance</span><span class="p">(</span><span class="n">real_data_pd</span><span class="p">,</span> <span class="n">pos_ci</span><span class="p">,</span> <span class="n">neg_ci</span><span class="p">)</span>
+<span class="c1"># plt.savefig(data_directory + &#39;Differences_of_means_significance_by_trial_bins.pdf&#39;,transparent=True, bbox_inches=&#39;tight&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-figure-2-bcde-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/faff9427b7e54b3095154550de387034/figure_2_bcde.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">figure_2_bcde.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/63b541608e9b1ffc3adaad1a96ff7f29/figure_2_bcde.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">figure_2_bcde.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="figure_1_ijk.html" class="btn btn-neutral float-right" title="Figure 1 IJK" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="plot_figure_1_c.html" class="btn btn-neutral float-left" title="Figure 1 C" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, Hernando M Vergara.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
