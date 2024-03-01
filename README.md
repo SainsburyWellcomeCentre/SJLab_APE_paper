@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10732202.svg)](https://doi.org/10.5281/zenodo.10732202)
+
 # APE_paper
 Reproduction of figures for the [APE paper](https://www.biorxiv.org/content/10.1101/2022.09.12.507572v1)
 
