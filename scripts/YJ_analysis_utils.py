@@ -17,7 +17,7 @@ class SessionData(object):
         self.reward = None
 
         if protocol != 'SOR':
-            self.choice = ChoiceAlignedData(self,trial_data, photometry_data, save_traces=True)
+            #self.choice = ChoiceAlignedData(self, trial_data, photometry_data)
             #self.cue = CueAlignedData(self,trial_data, photometry_data, save_traces=True)
             #self.reward = RewardAlignedData(self, trial_data, photometry_data, save_traces=True)
 
@@ -27,12 +27,12 @@ class ChoiceAlignedData(object):
     Traces for standard analysis aligned to choice (=movement from center port to left or right port)
     """
 
-    def __init__(self, SessionData, trial_data, photometry_data):
+    def __init__(self, session_data, trial_data, photometry_data):
 
         # "RESPONSE": RIGHT = 2, LEFT = 1: hence ipsi and contra need to be assigned accordingly:
         fiber_options = np.array(['left', 'right'])  # left = (0+1) = 1; right = (1+1) == 2
-        ipsi_fiber_side_numeric = (np.where(fiber_options == SessionData.fiber_side)[0] + 1)[0]  # if fiber on right ipsi = 2; if fiber on left ipsi  = 1
-        contra_fiber_side_numeric = (np.where(fiber_options != SessionData.fiber_side)[0] + 1)[0]  # if fiber on right contra = 1, if fiber on left contra = 2
+        ipsi_fiber_side_numeric = (np.where(fiber_options == session_data.fiber_side)[0] + 1)[0]  # if fiber on right ipsi = 2; if fiber on left ipsi  = 1
+        contra_fiber_side_numeric = (np.where(fiber_options != session_data.fiber_side)[0] + 1)[0]  # if fiber on right contra = 1, if fiber on left contra = 2
 
         params = {'state_type_of_interest': 5,
                   'outcome': 2,             # 2 = doesn't matter for choice aligned data
