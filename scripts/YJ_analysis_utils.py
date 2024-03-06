@@ -54,7 +54,7 @@ class ChoiceAlignedData(object):
 
 
 class ZScoredTraces(object):
-    def __init__(self, trial_data, dff, params, response, first_choice, curr_run):
+    def __init__(self, trial_data, dff, params, response, first_choice):
         self.params = HeatMapParams(params, response, first_choice)
         self.time_points, self.mean_trace, self.sorted_traces, self.reaction_times, self.state_name, self.title, self.sorted_next_poke, self.trial_nums, self.event_times, self.outcome_times = find_and_z_score_traces(
             trial_data, dff, self.params, sort=False)
