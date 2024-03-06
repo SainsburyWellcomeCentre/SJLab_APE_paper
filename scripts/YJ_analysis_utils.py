@@ -2,6 +2,9 @@
 from scipy import stats
 import numpy as np
 
+def test(a, b):
+    c = a + b
+    return c
 
 class SessionData(object):
     def __int__(self, mouse, date, fiber_side, protocol, trial_data, photometry_data):
