@@ -7,7 +7,7 @@ def test(a, b):
     return c
 
 class SessionData(object):
-    def __int__(self, mouse, date, fiber_side, protocol, trial_data, photometry_data):
+    def __init__(self, mouse, date, fiber_side, protocol, trial_data, photometry_data):
         self.mouse = mouse
         self.date = date
         self.fiber_side = fiber_side
@@ -17,7 +17,7 @@ class SessionData(object):
         self.reward = None
 
         if protocol != 'SOR':
-            #self.choice = ChoiceAlignedData(self, trial_data, photometry_data)
+            self.choice = ChoiceAlignedData(self, trial_data, photometry_data)
             #self.cue = CueAlignedData(self,trial_data, photometry_data, save_traces=True)
             #self.reward = RewardAlignedData(self, trial_data, photometry_data, save_traces=True)
 
