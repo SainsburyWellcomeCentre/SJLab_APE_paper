@@ -1,5 +1,5 @@
 
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 
 def plot_SF5TU(APE_mean_trace, RTC_mean_trace, APE_sem_trace, RTC_sem_trace, APE_peak_values, RTC_peak_values, APE_time, RTC_time):
