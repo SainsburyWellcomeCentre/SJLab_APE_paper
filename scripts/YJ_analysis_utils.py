@@ -2,9 +2,6 @@
 from scipy import stats
 import numpy as np
 
-def test(a, b):
-    c = a + b
-    return c
 
 class SessionData(object):
     def __init__(self, mouse, date, fiber_side, protocol, trial_data, photometry_data):
@@ -364,3 +361,8 @@ class ZScoredTraces_RTC(object):
 class RTC_params(object):
     def __init__(self, x_range):
         self.plot_range = x_range
+
+
+def test2(a, b):
+    c = a * b
+    return c
