@@ -43,7 +43,7 @@ class ChoiceAlignedData(object):
                   'plot_range': [-6, 6],
                   'first_choice_correct': 2,  # 2 = doesnt matter
                   'SOR': 0,                 # 0 = nonSOR; 2 = doesnt matter, 1 = SOR
-                  'psycho': 0,              # only Trial type 1 and 7 (no intermediate values, psychometric sounds)
+                  'psycho': 0,              # only Trial type 1 and 7 (no intermediate values / psychometric sounds)
                   'LRO': 0,                 # 0 = nonLRO;
                   'LargeRewards': 0,        # 1 = LR
                   'Omissions': 0,           # 1 = Omission
@@ -97,7 +97,7 @@ def find_and_z_score_traces(trial_data, dff, params, norm_window=8, sort=False, 
     if params.LRO == 0:
         events_of_int = getNonLROtrials(events_of_int)
 
-
+    print('preselection of traces: ' + str(events_of_int.shape[0]) + ' trials')
 
     # 1) State type (e.g. corresp. State name = CueDelay, WaitforResponse...)
     events_of_int = events_of_int.loc[(events_of_int['State type'] == params.state)]  # State type = number of state of interest
