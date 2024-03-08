@@ -362,6 +362,14 @@ class RTC_params(object):
     def __init__(self, x_range):
         self.plot_range = x_range
 
+def calculate_error_bars(mean_trace, data, error_bar_method='sem'):
+    if error_bar_method == 'sem':
+        sem = stats.sem(data, axis=0)
+        lower_bound = mean_trace - sem
+        upper_bound = mean_trace + sem
+    elif error_bar_method == 'ci':
+        lower_bound, upper_bound = bootstrap(data, n_boot=1000, ci=68)
+    return lower_bound, upper_bound
 
 def test2(a, b):
     c = a * b
