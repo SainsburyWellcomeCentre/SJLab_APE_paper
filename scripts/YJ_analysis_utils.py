@@ -17,6 +17,9 @@ class SessionData(object):
             self.choice = ChoiceAlignedData(self, trial_data, photometry_data)
             #self.cue = CueAlignedData(self,trial_data, photometry_data, save_traces=True)
             #self.reward = RewardAlignedData(self, trial_data, photometry_data, save_traces=True)
+        elif self.protocol == 'SOR':
+            self.SOR_choice = SORChoiceAlignedData(self, trial_data, photometry_data)
+
 
 
 class ChoiceAlignedData(object):
@@ -48,6 +51,35 @@ class ChoiceAlignedData(object):
 
         self.ipsi_data = ZScoredTraces(trial_data, photometry_data, params, ipsi_fiber_side_numeric, ipsi_fiber_side_numeric)
         self.contra_data = ZScoredTraces(trial_data, photometry_data, params, contra_fiber_side_numeric, contra_fiber_side_numeric)
+
+class SORChoiceAlignedData(object):
+    """
+    Traces for SOR analysis: aligned to movement for trials when cue has been played on return already
+    """
+
+    def __init__(self, session_data, trial_data, photometry_data):
+        fiber_options = np.array(['left', 'right'])  # left = (0+1) = 1; right = (1+1) == 2
+        contra_fiber_side_numeric = (np.where(fiber_options != session_data.fiber_side)[0] + 1)[0]  # if fiber on right contra = 1, if fiber on left contra = 2
+
+        params = {'state_type_of_interest': 5,
+                  'outcome': 2,  # 2 = doesn't matter for choice aligned data
+                  'no_repeats': 1,
+                  'last_response': 0,  # doesnt matter for choice aligned data
+                  'align_to': 'Time start',
+                  'instance': -1,  # last instance
+                  'plot_range': [-6, 6],
+                  'first_choice_correct': 2,
+                  'SOR': 1,
+                  'psycho': 0,
+                  'LRO': 0,
+                  'LargeRewards': 0,
+                  'Omissions': 0,
+                  'cue': None}
+
+        self.contra_data = ZScoredTraces(trial_data, photometry_data, params, contra_fiber_side_numeric, contra_fiber_side_numeric)
+        # no ipsi data for SOR trials as ipsi trials were classic 2AC trials.
+
+
 
 
 class ZScoredTraces(object):
