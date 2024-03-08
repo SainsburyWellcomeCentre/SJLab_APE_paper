@@ -97,7 +97,7 @@ def find_and_z_score_traces(trial_data, dff, params, norm_window=8, sort=False, 
     if params.LRO == 0:
         events_of_int = getNonLROtrials(events_of_int)
 
-    print('preselection of traces: ' + str(events_of_int.shape[0]) + ' trials')
+
 
     # 1) State type (e.g. corresp. State name = CueDelay, WaitforResponse...)
     events_of_int = events_of_int.loc[(events_of_int['State type'] == params.state)]  # State type = number of state of interest
@@ -342,3 +342,25 @@ def get_photometry_around_event(all_trial_event_times, demodulated_trace, pre_wi
         plot_end = int(round(event_time*sample_rate)) + post_window*sample_rate
         event_photo_traces[event_num, :] = demodulated_trace[plot_start:plot_end]
     return event_photo_traces
+
+
+class ZScoredTraces_RTC(object):
+    def __init__(self, trial_data, df, x_range):
+        events_of_int = trial_data.loc[(trial_data['State type'] == 2)]  # cue = state type 2
+        event_times = events_of_int['Time start'].values
+        event_photo_traces = get_photometry_around_event(event_times, df, pre_window=5, post_window=5)
+        norm_traces = stats.zscore(event_photo_traces.T, axis=0)
+        sorted_traces = norm_traces.T
+        x_vals = np.linspace(x_range[0],x_range[1], norm_traces.shape[0], endpoint=True, retstep=False, dtype=None, axis=0)
+        y_vals = np.mean(sorted_traces, axis=0)
+        self.sorted_traces = sorted_traces
+        self.mean_trace = y_vals
+        self.time_points = x_vals
+        self.params = RTC_params(x_range)
+        self.reaction_times = None
+        self.events_of_int = events_of_int
+        #self.params.plot_range = x_range
+
+class RTC_params(object):
+    def __init__(self, x_range):
+        self.plot_range = x_range
