@@ -26,3 +26,4 @@ def plot_SF5TU(APE_mean_trace, RTC_mean_trace, APE_sem_trace, RTC_sem_trace, APE
     ax[0].ylim(y_range)
     ax[0].tight_layout()
 
+    return fig
