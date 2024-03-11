@@ -47,6 +47,7 @@ class ChoiceAlignedData(object):
                   'LRO': 0,                 # 0 = nonLRO;
                   'LargeRewards': 0,        # 1 = LR
                   'Omissions': 0,           # 1 = Omission
+                  'Silence': 0,             # 1 = Silence
                   'cue': None}
 
         self.ipsi_data = ZScoredTraces(trial_data, photometry_data, params, ipsi_fiber_side_numeric, ipsi_fiber_side_numeric)
@@ -74,6 +75,7 @@ class SORChoiceAlignedData(object):
                   'LRO': 0,
                   'LargeRewards': 0,
                   'Omissions': 0,
+                  'Silence': 0,
                   'cue': None}
 
         self.contra_data = ZScoredTraces(trial_data, photometry_data, params, contra_fiber_side_numeric, contra_fiber_side_numeric)
@@ -107,6 +109,7 @@ class HeatMapParams(object):
         self.LRO = params['LRO']
         self.LR = params['LargeRewards']
         self.O = params['Omissions']
+        self.S = params['Silence']
 
 
 def find_and_z_score_traces(trial_data, dff, params, norm_window=8, sort=False, get_photometry_data=True):
@@ -125,6 +128,8 @@ def find_and_z_score_traces(trial_data, dff, params, norm_window=8, sort=False, 
         events_of_int = getNonPsychotrials(events_of_int)
     if params.LRO == 0:
         events_of_int = getNonLROtrials(events_of_int)
+    if params.S == 0:
+        events_of_int = getNonSilenceTrials(events_of_int)
 
 
 
@@ -138,6 +143,8 @@ def find_and_z_score_traces(trial_data, dff, params, norm_window=8, sort=False, 
     if params.response != 0:    # 0 = don't care, 1 = left, 2 = right, selection of ipsi an contra side depends on fiber side
         events_of_int = events_of_int.loc[events_of_int['Response'] == params.response]
         title = title + ' Response = ' + str(params.response) + ';'
+    else:
+        print('Response = 0, so both left and right responses are considered')
     # --------------
 
     # 3) First and last response:
@@ -267,6 +274,22 @@ def getNonSORtrials(trial_data):
         if include == 0:
             trial_data_2AC = trial_data_2AC[trial_data_2AC['Trial num'] != trial_all]
     return trial_data_2AC
+
+def getNonSilenceTrials(trial_data):
+    total_trials = len(trial_data['Trial num'].unique())
+    trials_2AC = trial_data[trial_data['State name'] == 'WaitForPoke']
+    trial_num_2AC = len(trials_2AC['Trial num'].unique())
+    if trial_num_2AC == total_trials: # This is not a Sound-On-Return session
+        trial_data_NonSilence = trial_data
+        trial_data_NonSilence = trial_data_NonSilence[trial_data_NonSilence['Sound type'] != 1]
+        new_trial_num = trial_data_NonSilence['Trial num'].unique()
+        #if len(new_trial_num) < total_trials:
+            #print('non-silent trials ' + str(len(new_trial_num)) + ' out of ' + str(total_trials) + ' trials')
+            #print(trial_data_NonSilence['Sound type'].unique())
+    else:
+        trial_data_NonSilence = trial_data
+    return trial_data_NonSilence
+
 
 def getNonPsychotrials(trial_data):
     for sound_number in [2, 3, 4, 5, 6]:
