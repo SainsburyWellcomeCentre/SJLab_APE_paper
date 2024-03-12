@@ -97,5 +97,8 @@ git clone https://github.com/HernandoMV/APE_paper.git
   <img src="docs/imgs/fig7fg.png" width=450>
 </p>
 
-PLACEHOLDER FOR YVONNE FIGURE
+[Suppl. Figure 5 TU](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
+<p align="left">
+  <img src="docs/imgs/SFig5tu.png" width=450>
+</p>
 
