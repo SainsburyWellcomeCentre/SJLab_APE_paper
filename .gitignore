@@ -5,3 +5,4 @@ data/*.csv
 docs/sphinx/_build/
 docs/sphinx/auto_examples/
 scripts/*.pdf
+docs/figures_notebooks/Figure_1_C.ipynb
