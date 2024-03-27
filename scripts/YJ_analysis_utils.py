@@ -19,7 +19,7 @@ class SessionData(object):
             #self.reward = RewardAlignedData(self, trial_data, photometry_data, save_traces=True)
         elif self.protocol == 'SOR':
             self.SOR_choice = SORChoiceAlignedData(self, trial_data, photometry_data)
-
+            self.SOR_cue = SORCueAlignedData(self, trial_data, photometry_data)
 
 
 class ChoiceAlignedData(object):
@@ -44,9 +44,9 @@ class ChoiceAlignedData(object):
                   'first_choice_correct': 2,  # 2 = doesnt matter
                   'SOR': 0,                 # 0 = nonSOR; 2 = doesnt matter, 1 = SOR
                   'psycho': 0,              # only Trial type 1 and 7 (no intermediate values / psychometric sounds)
-                  'LRO': 0,                 # 0 = nonLRO;
-                  'LargeRewards': 0,        # 1 = LR
-                  'Omissions': 0,           # 1 = Omission
+                  'LRO': 0,                 # 0 = nonLRO, exclude trials with Large Rewards or Omissions
+                  'LargeRewards': 0,        # 1 = LR trials
+                  'Omissions': 0,           # 1 = Omission trials
                   'Silence': 0,             # 1 = Silence
                   'cue': None}
 
@@ -70,7 +70,7 @@ class SORChoiceAlignedData(object):
                   'instance': -1,  # last instance
                   'plot_range': [-6, 6],
                   'first_choice_correct': 2,
-                  'SOR': 1,
+                  'SOR': 1, # 1 = SOR trials
                   'psycho': 0,
                   'LRO': 0,
                   'LargeRewards': 0,
@@ -82,7 +82,33 @@ class SORChoiceAlignedData(object):
         # no ipsi data for SOR trials as ipsi trials were classic 2AC trials.
 
 
+class SORCueAlignedData(object):
+    """
+    Traces for SOR analysis: aligned to movement for trials when cue has been played on return already
+    """
 
+    def __init__(self, session_data, trial_data, photometry_data):
+        fiber_options = np.array(['left', 'right'])  # left = (0+1) = 1; right = (1+1) == 2
+        contra_fiber_side_numeric = (np.where(fiber_options != session_data.fiber_side)[0] + 1)[0]  # if fiber on right contra = 1, if fiber on left contra = 2
+
+        params = {'state_type_of_interest': 10, # State type = 10 = 'ReturnCuePlay'
+                  'outcome': 2,
+                  'no_repeats': 1,
+                  'last_response': 0,
+                  'align_to': 'Time start',
+                  'instance': -1,
+                  'plot_range': [-6, 6],
+                  'first_choice_correct': 2,
+                  'SOR': 2,  # 2 = all trials
+                  'psycho': 0,
+                  'LRO': 0,
+                  'LargeRewards': 0,
+                  'Omissions': 0,
+                  'Silence': 0,  # 1 = Silent trials only
+                  'cue': None}
+
+        self.contra_data = ZScoredTraces(trial_data, photometry_data, params, 0, 0)  # the cue happens on the trial preceding the SOR trial, hence the side of that trial doesn't matter at all
+        # no ipsi data for SOR trials as ipsi trials were classic 2AC trials.
 
 class ZScoredTraces(object):
     def __init__(self, trial_data, dff, params, response, first_choice):
@@ -143,9 +169,7 @@ def find_and_z_score_traces(trial_data, dff, params, norm_window=8, sort=False, 
     if params.response != 0:    # 0 = don't care, 1 = left, 2 = right, selection of ipsi an contra side depends on fiber side
         events_of_int = events_of_int.loc[events_of_int['Response'] == params.response]
         title = title + ' Response = ' + str(params.response) + ';'
-    else:
-        print('Response = 0, so both left and right responses are considered')
-    # --------------
+    # -------------
 
     # 3) First and last response:
     if params.first_choice != 0:
