@@ -61,7 +61,7 @@ def plot_SF5PQR(all_group_data, curr_data_time, SOR_choice_peak_values, SOR_cue_
     color_mean = ['#e377c2','#3F888F']
     color_sem = ['#e377c2','#7FB5B5']
     alphas = [0.4, 0.6]
-    labels = ['Sound', 'Choice']
+    labels = ['Sound on return', 'Choice']
     # plotting the z-scored dLight traces
     for a, key in enumerate(all_group_data.keys()):
         curr_data = all_group_data[key]
@@ -95,7 +95,41 @@ def plot_SF5PQR(all_group_data, curr_data_time, SOR_choice_peak_values, SOR_cue_
     ax[2].spines['top'].set_visible(False)
     ax[2].spines['right'].set_visible(False)
     ax[2].set_xticks([0, 1])
-    ax[2].set_xticklabels(['Choice', 'Sound'])
+    ax[2].set_xticklabels(['Choice', 'Sound on return'])
     ax[2].set_ylabel('dLight z-score')
     ax[2].set_xlim(-0.5, 1.5)
     ax[2].set_ylim(y_range)
+
+def plot_SF4FG(all_group_data, time):
+    fig, ax = plt.subplots(1, 2, figsize=(6, 3))
+    fig.tight_layout(pad=4)
+    x_range = [-2, 3]
+    y_range = [-1, 2]
+    nr_mice = len(all_group_data['choice_contra'])
+
+    align_to = ['choice_ipsi', 'choice_contra', 'reward_correct']
+    colors = ['#7AC5CD','#3D59AB', '#458B00']
+    for a, key in enumerate(align_to):
+        if a < 2:
+            c = 0
+        else:
+            c = 1
+        curr_data = all_group_data[key]
+        curr_data_set_mean = np.mean(curr_data, axis=0)
+        curr_data_set_sem = np.std(curr_data, axis=0) / np.sqrt(nr_mice)
+
+        ax[c].plot(time, curr_data_set_mean, lw=2, color=colors[a], label=key)
+        ax[c].fill_between(time, curr_data_set_mean - curr_data_set_sem,
+                               curr_data_set_mean + curr_data_set_sem, color=colors[a],
+                               linewidth=1, alpha=0.6)
+
+        ax[c].legend(loc='upper right', frameon=False, fontsize=8)
+
+    for a in range(0, 2):
+        ax[a].spines['top'].set_visible(False)
+        ax[a].spines['right'].set_visible(False)
+        ax[a].axvline(0, color='#808080', linewidth=0.5, ls='dashed')
+        ax[a].set_xlabel('Time (s)')
+        ax[a].set_ylabel('dLight z-score')
+        ax[a].set_xlim(x_range)
+        ax[a].set_ylim(y_range)
