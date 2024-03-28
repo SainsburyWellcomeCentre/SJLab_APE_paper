@@ -13,11 +13,11 @@ class SessionData(object):
         self.cue = None
         self.reward = None
 
-        if protocol != 'SOR':
-            self.choice = ChoiceAlignedData(self, trial_data, photometry_data)
-            #self.cue = CueAlignedData(self,trial_data, photometry_data, save_traces=True)
-            #self.reward = RewardAlignedData(self, trial_data, photometry_data, save_traces=True)
-        elif self.protocol == 'SOR':
+        self.choice = ChoiceAlignedData(self, trial_data, photometry_data)
+        self.reward = RewardAlignedData(self, trial_data, photometry_data)
+        #self.cue = CueAlignedData(self,trial_data, photometry_data)
+
+        if self.protocol == 'SOR':
             self.SOR_choice = SORChoiceAlignedData(self, trial_data, photometry_data)
             self.SOR_cue = SORCueAlignedData(self, trial_data, photometry_data)
 
@@ -52,6 +52,63 @@ class ChoiceAlignedData(object):
 
         self.ipsi_data = ZScoredTraces(trial_data, photometry_data, params, ipsi_fiber_side_numeric, ipsi_fiber_side_numeric)
         self.contra_data = ZScoredTraces(trial_data, photometry_data, params, contra_fiber_side_numeric, contra_fiber_side_numeric)
+
+class RewardAlignedData(object):
+    """
+    Traces for standard analysis aligned to choice (=movement from center port to left or right port)
+    """
+
+    def __init__(self, session_data, trial_data, photometry_data):
+
+        # "RESPONSE": RIGHT = 2, LEFT = 1: hence ipsi and contra need to be assigned accordingly:
+        fiber_options = np.array(['left', 'right'])  # left = (0+1) = 1; right = (1+1) == 2
+        ipsi_fiber_side_numeric = (np.where(fiber_options == session_data.fiber_side)[0] + 1)[0]  # if fiber on right ipsi = 2; if fiber on left ipsi  = 1
+        contra_fiber_side_numeric = (np.where(fiber_options != session_data.fiber_side)[0] + 1)[0]  # if fiber on right contra = 1, if fiber on left contra = 2
+
+        # CORRECT TRIALS ALIGNED TO REWARD
+        params = {'state_type_of_interest': 5,
+                  'outcome': 1,             # 1 = correct
+                  'no_repeats': 1,          # 1 = no repeats allowed
+                  'last_response': 0,       # the previous trial doesn't matter
+                  'align_to': 'Time end',
+                  'instance': -1,           # -1 = last instance; 1 = first instance
+                  'plot_range': [-6, 6],
+                  'first_choice_correct': 1,  # 2 = doesnt matter, 1 = correct
+                  'SOR': 0,                 # 0 = nonSOR; 2 = doesnt matter, 1 = SOR
+                  'psycho': 0,              # only Trial type 1 and 7 (no intermediate values / psychometric sounds)
+                  'LRO': 0,                 # 0 = nonLRO, exclude trials with Large Rewards or Omissions
+                  'LargeRewards': 0,        # 1 = LR trials
+                  'Omissions': 0,           # 1 = Omission trials
+                  'Silence': 0,             # 1 = Silence
+                  'cue': None}
+
+        self.ipsi_data = ZScoredTraces(trial_data, photometry_data, params, ipsi_fiber_side_numeric, ipsi_fiber_side_numeric)
+        self.contra_data = ZScoredTraces(trial_data, photometry_data, params, contra_fiber_side_numeric, contra_fiber_side_numeric)
+
+        # INCORRECT TRIALS ALIGNED TO TIME OF REWARD
+        params = {'state_type_of_interest': 5,
+                  'outcome': 0,             # 1 = correct, 0 = incorrect
+                  'no_repeats': 1,          # 1 = no repeats allowed
+                  'last_response': 0,       # the previous trial doesn't matter
+                  'align_to': 'Time end',
+                  'instance': -1,           # -1 = last instance; 1 = first instance
+                  'plot_range': [-6, 6],
+                  'first_choice_correct': 0,  # 2 = doesnt matter, 0 = incorrect
+                  'SOR': 0,                 # 0 = nonSOR; 2 = doesnt matter, 1 = SOR
+                  'psycho': 0,              # only Trial type 1 and 7 (no intermediate values / psychometric sounds)
+                  'LRO': 0,                 # 0 = nonLRO, exclude trials with Large Rewards or Omissions
+                  'LargeRewards': 0,        # 1 = LR trials
+                  'Omissions': 0,           # 1 = Omission trials
+                  'Silence': 0,             # 1 = Silence
+                  'cue': None}
+
+        self.ipsi_data_incorrect = ZScoredTraces(trial_data, photometry_data, params, ipsi_fiber_side_numeric, ipsi_fiber_side_numeric)
+        self.contra_data_incorrect = ZScoredTraces(trial_data, photometry_data, params, contra_fiber_side_numeric, contra_fiber_side_numeric)
+
+
+
+
+
 
 class SORChoiceAlignedData(object):
     """
