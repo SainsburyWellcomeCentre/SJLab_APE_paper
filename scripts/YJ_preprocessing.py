@@ -16,22 +16,22 @@ def GetExperimentsToProcess(mice, dates, protocol, experimental_record):
         if protocol == '':
             df_mice.append(mouse)
             df_dates.append(dates[i])
-            df_fiber_side.append(experimental_record[(experimental_record['mouse'] == mouse) & (experimental_record['date'] == dates[i])]['fiber_side'].values[0])
-            protocol1 = experimental_record[(experimental_record['mouse'] == mouse) & (experimental_record['date'] == dates[i])]['protocol1'].values[0]
+            df_fiber_side.append(experimental_record[(experimental_record['AnimalID'] == mouse) & (experimental_record['Date'] == int(dates[i]))]['fiber_side'].values[0])
+            protocol1 = experimental_record[(experimental_record['AnimalID'] == mouse) & (experimental_record['Date'] == int(dates[i]))]['protocol1'].values[0]
             df_protocol.append(protocol1)
-            protocol2 = experimental_record[(experimental_record['mouse'] == mouse) & (experimental_record['date'] == dates[i])]['protocol2'].values[0]
+            protocol2 = experimental_record[(experimental_record['AnimalID'] == mouse) & (experimental_record['Date'] == int(dates[i]))]['protocol2'].values[0]
             if not pd.isna(protocol2):
                 df_mice.append(mouse)
                 df_dates.append(dates[i])
-                df_fiber_side.append(experimental_record[(experimental_record['mouse'] == mouse) & (
-                            experimental_record['date'] == dates[i])]['fiber_side'].values[0])
+                df_fiber_side.append(experimental_record[(experimental_record['AnimalID'] == mouse) & (
+                            experimental_record['Date'] == int(dates[i]))]['fiber_side'].values[0])
                 df_protocol.append(protocol2)
         else:
             df_mice.append(mouse)
             df_dates.append(dates[i])
-            df_fiber_side.append(experimental_record[(experimental_record['mouse'] == mouse) & (experimental_record['date'] == dates[i])]['fiber_side'].values[0])
+            df_fiber_side.append(experimental_record[(experimental_record['AnimalID'] == mouse) & (experimental_record['Date'] == int(dates[i]))]['fiber_side'].values[0])
             df_protocol.append(protocol)
-    experiments_to_process = pd.DataFrame({'mouse': df_mice, 'date': df_dates, 'fiber_side': df_fiber_side, 'protocol': df_protocol})
+    experiments_to_process = pd.DataFrame({'AnimalID': df_mice, 'Date': df_dates, 'fiber_side': df_fiber_side, 'protocol': df_protocol})
     return experiments_to_process
 
 
@@ -43,13 +43,23 @@ def preprocessData(experiments_to_process):
     all_photometry_data = []
     all_restructured_data = []
 
-    for mouse in experiments_to_process['mouse']:
-        print('Processing ' + mouse + ' ' + experiments_to_process['date'].values[count] + ' ' + experiments_to_process['protocol'].values[count])
-        date = experiments_to_process['date'].values[count]
+    for mouse in experiments_to_process['AnimalID']:
+        print('Processing ' + mouse + ' ' + experiments_to_process['Date'].values[count] + ' ' + experiments_to_process['protocol'].values[count])
+        date = experiments_to_process['Date'].values[count]
         protocol = experiments_to_process['protocol'].values[count]
-
         # loading the photometry data
-        photo_filename = dataset_path + mouse + '_' + date + '_' + protocol + '_AI.tdms'  # needs to change according to final raw data filename
+        if protocol != 'RTC' and protocol != 'RWN':
+            filepath = dataset_path + mouse + '/'
+        elif protocol == 'RTC':
+            filepath = dataset_path + mouse + '/' + mouse + '_RTC/'
+        elif protocol == 'RWN':
+            filepath = dataset_path + mouse + '/' + mouse + '_RWN/'
+
+        folders_in_photo_path = os.listdir(filepath)
+        folders_on_that_day = [s for s in folders_in_photo_path if date in s]
+        photo_filename = filepath + folders_on_that_day[0] + '/' + 'AI.tdms'
+        #print('         > df:' + photo_filename)
+
         photo_data = nptdms.TdmsFile(photo_filename)
         sampling_rate = 10000
 
@@ -72,25 +82,26 @@ def preprocessData(experiments_to_process):
 
 
         # loading the bpod behavioural data
-        if protocol == '2AC':
-            search_tool = mouse + '_Two_Alternative_Choice_' + date + '_'
-        elif protocol == 'SOR':
+        if protocol == 'SOR':
             search_tool = mouse + '_Two_Alternative_Choice_Tones_On_Return_' + date + '_'
         elif protocol == 'RTC':
             search_tool = mouse + '_Random_Tone_Clouds_' + date + '_'
-        elif protocol == 'WN':
+        elif protocol == 'RWN':
             search_tool = mouse + '_Random_WN_' + date + '_'
+        else:
+            search_tool = mouse + '_Two_Alternative_Choice_' + date + '_' # standard analysis
 
-        files_on_that_day = [f for f in os.listdir(dataset_path) if search_tool in f]
+        mat_files = os.listdir(dataset_path + 'bpod/')
+        files_on_that_day = [f for f in mat_files if search_tool in f]
         mat_files_on_that_day = [f for f in files_on_that_day if f.endswith('.mat')]
-
+        #print('         > td:' + mat_files_on_that_day[0])
         if len(mat_files_on_that_day) != 1:
             print(str(len(mat_files_on_that_day)) + ' files found for ' + mouse + ' on ' + date)
             print('files found: ' + str(mat_files_on_that_day))
         else:
             no_extension_files = [os.path.splitext(filename)[0] for filename in mat_files_on_that_day]
             file_times = [filename.split('_')[-1] for filename in no_extension_files]
-            main_session_file = dataset_path + mat_files_on_that_day[file_times.index(max(file_times))]
+            main_session_file = dataset_path + 'bpod/'+ mat_files_on_that_day[file_times.index(max(file_times))]
             loaded_bpod_file = loadmat(main_session_file)
             trial_raw_events = loaded_bpod_file['SessionData']['RawEvents']['Trial']
 
@@ -104,14 +115,14 @@ def preprocessData(experiments_to_process):
             print('daq: ', daq_num_trials)
             print('bpod: ', bpod_num_trials)
         else:
-            print(daq_num_trials, 'trials in session (lerner_deisseroth_preprocess)')
+            print('         > ' + str(daq_num_trials) + ' trials in session')
 
 
         if protocol == 'RTC':
             restructured_data = restructure_bpod_timestamps_random_tone_clouds(loaded_bpod_file, trial_start_ttls_daq, clock_pulses)
             smoothed_trace_filename = mouse + '_' + date + '_RTC_smoothed_signal.npy'
             restructured_data_filename = mouse + '_' + date + '_RTC_restructured_data.pkl'
-        elif protocol == 'Random_WN':
+        elif protocol == 'RWN':
             restructured_data = restructure_bpod_timestamps_random_tone_clouds(loaded_bpod_file,
                                                                                     trial_start_ttls_daq, clock_pulses)
             smoothed_trace_filename = mouse + '_' + date + '_RWN_smoothed_signal.npy'
@@ -122,13 +133,14 @@ def preprocessData(experiments_to_process):
             restructured_data_filename = mouse + '_' + date + '_' + 'restructured_data.pkl'
 
         # save output:
-        saving_folder = '../../data/'  #+ 'processed_data\\' + mouse + '\\'
+        saving_folder = '../../data/'
         np.save(saving_folder + smoothed_trace_filename, df)
         restructured_data.to_pickle(saving_folder + restructured_data_filename)
         all_photometry_data.append(df)
         all_restructured_data.append(restructured_data)
         count += 1
 
+    print('Job completed.')
     return all_photometry_data, all_restructured_data
 def lerner_deisseroth_preprocess(
     photodetector_raw_data,
