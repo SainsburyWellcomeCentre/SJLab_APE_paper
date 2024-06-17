@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def plot_SF5TU(APE_mean_trace, RTC_mean_trace, APE_sem_trace, RTC_sem_trace, APE_peak_values, RTC_peak_values, APE_time, RTC_time):
+def plot_SF6TU(APE_mean_trace, RTC_mean_trace, APE_sem_trace, RTC_sem_trace, APE_peak_values, RTC_peak_values, APE_time, RTC_time):
     x_range = [-2, 3]
     y_range = [-0.75, 1.5]
     plt.rcParams["figure.figsize"] = (3, 6)
@@ -50,7 +50,7 @@ def plot_SF5TU(APE_mean_trace, RTC_mean_trace, APE_sem_trace, RTC_sem_trace, APE
     return fig
 
 
-def plot_SF5PQR(all_group_data, curr_data_time, SOR_choice_peak_values, SOR_cue_peak_values):
+def plot_SF6PQR(all_group_data, curr_data_time, SOR_choice_peak_values, SOR_cue_peak_values):
     fig, ax = plt.subplots(1, 3, figsize=(9, 3))
     fig.tight_layout(pad=4)
     x_range = [-2, 3]

@@ -519,6 +519,3 @@ def calculate_error_bars(mean_trace, data, error_bar_method='sem'):
         lower_bound, upper_bound = bootstrap(data, n_boot=1000, ci=68)
     return lower_bound, upper_bound
 
-def test2(a, b):
-    c = a * b
-    return c
