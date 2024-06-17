@@ -100,7 +100,7 @@ def plot_SF6PQR(all_group_data, curr_data_time, SOR_choice_peak_values, SOR_cue_
     ax[2].set_xlim(-0.5, 1.5)
     ax[2].set_ylim(y_range)
 
-def plot_SF4FG(all_group_data, time):
+def plot_SF5FG(all_group_data, time):
     fig, ax = plt.subplots(1, 2, figsize=(6, 3))
     fig.tight_layout(pad=4)
     x_range = [-2, 3]
