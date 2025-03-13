@@ -9,7 +9,7 @@ Reproduction of figures for the [APE paper](https://www.biorxiv.org/content/10.1
   <img src="docs/imgs/summary.png" width=450>
 </p>
 
-Francesca Greenstreet, Hernando Vergara, Sthitapranjya Pati, Laura Schwarz, Matthew Wisdom, Fred Marbach, Yvonne Johansson, Lars Rollik, Theodore Moskovitz, Claudia Clopath, Marcus Stephenson-Jones, "Action prediction error: a value-free dopaminergic teaching signal that drives stable learning." bioRxiv, 2022.
+Francesca Greenstreet, Hernando Vergara, Yvonne Johansson, Sthitapranjya Pati, Stephen C Lenzi, Alina Gubanova, Laura Schwarz, Matthew Wisdom, Fred Marbach, Lars Rollik, Theodore Moskovitz, Joseph Cohen, Emmett Thompson, Troy W Margrie, Claudia Clopath, Marcus Stephenson-Jones, "Action prediction error: a value-free dopaminergic teaching signal that drives stable learning." bioRxiv, 2022.
 
 
 ### See documentation (scripts to generate figures) [here](https://hernandomv.github.io/APE_paper/)
@@ -97,5 +97,22 @@ git clone https://github.com/HernandoMV/APE_paper.git
   <img src="docs/imgs/fig7fg.png" width=450>
 </p>
 
-PLACEHOLDER FOR YVONNE FIGURE
+[Suppl. Figure 5 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
+<p align="left">
+  <img src="docs/imgs/SFig5fg.png" width=450>
+</p>
 
+[Suppl. Figure 6 PQR](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
+<p align="left">
+  <img src="docs/imgs/SFig6pqr.png" width=450>
+</p>
+
+[Suppl. Figure 6 TU](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
+<p align="left">
+  <img src="docs/imgs/SFig6tu.png" width=450>
+</p>
+
+[Suppl. Figure 6 VW](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
+<p align="left">
+  <img src="docs/imgs/SFig6vw.png" width=450>
+</p>

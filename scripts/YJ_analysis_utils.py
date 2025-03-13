@@ -13,13 +13,13 @@ class SessionData(object):
         self.cue = None
         self.reward = None
 
-        if protocol != 'SOR':
-            self.choice = ChoiceAlignedData(self, trial_data, photometry_data)
-            #self.cue = CueAlignedData(self,trial_data, photometry_data, save_traces=True)
-            #self.reward = RewardAlignedData(self, trial_data, photometry_data, save_traces=True)
-        elif self.protocol == 'SOR':
-            self.SOR_choice = SORChoiceAlignedData(self, trial_data, photometry_data)
+        self.choice = ChoiceAlignedData(self, trial_data, photometry_data)
+        self.reward = RewardAlignedData(self, trial_data, photometry_data)
+        #self.cue = CueAlignedData(self,trial_data, photometry_data)
 
+        if self.protocol == 'SOR':
+            self.SOR_choice = SORChoiceAlignedData(self, trial_data, photometry_data)
+            self.SOR_cue = SORCueAlignedData(self, trial_data, photometry_data)
 
 
 class ChoiceAlignedData(object):
@@ -44,14 +44,71 @@ class ChoiceAlignedData(object):
                   'first_choice_correct': 2,  # 2 = doesnt matter
                   'SOR': 0,                 # 0 = nonSOR; 2 = doesnt matter, 1 = SOR
                   'psycho': 0,              # only Trial type 1 and 7 (no intermediate values / psychometric sounds)
-                  'LRO': 0,                 # 0 = nonLRO;
-                  'LargeRewards': 0,        # 1 = LR
-                  'Omissions': 0,           # 1 = Omission
+                  'LRO': 0,                 # 0 = nonLRO, exclude trials with Large Rewards or Omissions
+                  'LargeRewards': 0,        # 1 = LR trials
+                  'Omissions': 0,           # 1 = Omission trials
                   'Silence': 0,             # 1 = Silence
                   'cue': None}
 
         self.ipsi_data = ZScoredTraces(trial_data, photometry_data, params, ipsi_fiber_side_numeric, ipsi_fiber_side_numeric)
         self.contra_data = ZScoredTraces(trial_data, photometry_data, params, contra_fiber_side_numeric, contra_fiber_side_numeric)
+
+class RewardAlignedData(object):
+    """
+    Traces for standard analysis aligned to choice (=movement from center port to left or right port)
+    """
+
+    def __init__(self, session_data, trial_data, photometry_data):
+
+        # "RESPONSE": RIGHT = 2, LEFT = 1: hence ipsi and contra need to be assigned accordingly:
+        fiber_options = np.array(['left', 'right'])  # left = (0+1) = 1; right = (1+1) == 2
+        ipsi_fiber_side_numeric = (np.where(fiber_options == session_data.fiber_side)[0] + 1)[0]  # if fiber on right ipsi = 2; if fiber on left ipsi  = 1
+        contra_fiber_side_numeric = (np.where(fiber_options != session_data.fiber_side)[0] + 1)[0]  # if fiber on right contra = 1, if fiber on left contra = 2
+
+        # CORRECT TRIALS ALIGNED TO REWARD
+        params = {'state_type_of_interest': 5,
+                  'outcome': 1,             # 1 = correct
+                  'no_repeats': 1,          # 1 = no repeats allowed
+                  'last_response': 0,       # the previous trial doesn't matter
+                  'align_to': 'Time end',
+                  'instance': -1,           # -1 = last instance; 1 = first instance
+                  'plot_range': [-6, 6],
+                  'first_choice_correct': 1,  # 2 = doesnt matter, 1 = correct
+                  'SOR': 0,                 # 0 = nonSOR; 2 = doesnt matter, 1 = SOR
+                  'psycho': 0,              # only Trial type 1 and 7 (no intermediate values / psychometric sounds)
+                  'LRO': 0,                 # 0 = nonLRO, exclude trials with Large Rewards or Omissions
+                  'LargeRewards': 0,        # 1 = LR trials
+                  'Omissions': 0,           # 1 = Omission trials
+                  'Silence': 0,             # 1 = Silence
+                  'cue': None}
+
+        self.ipsi_data = ZScoredTraces(trial_data, photometry_data, params, ipsi_fiber_side_numeric, ipsi_fiber_side_numeric)
+        self.contra_data = ZScoredTraces(trial_data, photometry_data, params, contra_fiber_side_numeric, contra_fiber_side_numeric)
+
+        # INCORRECT TRIALS ALIGNED TO TIME OF REWARD
+        params = {'state_type_of_interest': 5,
+                  'outcome': 0,             # 1 = correct, 0 = incorrect
+                  'no_repeats': 1,          # 1 = no repeats allowed
+                  'last_response': 0,       # the previous trial doesn't matter
+                  'align_to': 'Time end',
+                  'instance': -1,           # -1 = last instance; 1 = first instance
+                  'plot_range': [-6, 6],
+                  'first_choice_correct': 0,  # 2 = doesnt matter, 0 = incorrect
+                  'SOR': 0,                 # 0 = nonSOR; 2 = doesnt matter, 1 = SOR
+                  'psycho': 0,              # only Trial type 1 and 7 (no intermediate values / psychometric sounds)
+                  'LRO': 0,                 # 0 = nonLRO, exclude trials with Large Rewards or Omissions
+                  'LargeRewards': 0,        # 1 = LR trials
+                  'Omissions': 0,           # 1 = Omission trials
+                  'Silence': 0,             # 1 = Silence
+                  'cue': None}
+
+        self.ipsi_data_incorrect = ZScoredTraces(trial_data, photometry_data, params, ipsi_fiber_side_numeric, ipsi_fiber_side_numeric)
+        self.contra_data_incorrect = ZScoredTraces(trial_data, photometry_data, params, contra_fiber_side_numeric, contra_fiber_side_numeric)
+
+
+
+
+
 
 class SORChoiceAlignedData(object):
     """
@@ -70,7 +127,7 @@ class SORChoiceAlignedData(object):
                   'instance': -1,  # last instance
                   'plot_range': [-6, 6],
                   'first_choice_correct': 2,
-                  'SOR': 1,
+                  'SOR': 1, # 1 = SOR trials
                   'psycho': 0,
                   'LRO': 0,
                   'LargeRewards': 0,
@@ -82,7 +139,33 @@ class SORChoiceAlignedData(object):
         # no ipsi data for SOR trials as ipsi trials were classic 2AC trials.
 
 
+class SORCueAlignedData(object):
+    """
+    Traces for SOR analysis: aligned to movement for trials when cue has been played on return already
+    """
 
+    def __init__(self, session_data, trial_data, photometry_data):
+        fiber_options = np.array(['left', 'right'])  # left = (0+1) = 1; right = (1+1) == 2
+        contra_fiber_side_numeric = (np.where(fiber_options != session_data.fiber_side)[0] + 1)[0]  # if fiber on right contra = 1, if fiber on left contra = 2
+
+        params = {'state_type_of_interest': 10, # State type = 10 = 'ReturnCuePlay'
+                  'outcome': 2,
+                  'no_repeats': 1,
+                  'last_response': 0,
+                  'align_to': 'Time start',
+                  'instance': -1,
+                  'plot_range': [-6, 6],
+                  'first_choice_correct': 2,
+                  'SOR': 2,  # 2 = all trials
+                  'psycho': 0,
+                  'LRO': 0,
+                  'LargeRewards': 0,
+                  'Omissions': 0,
+                  'Silence': 0,  # 1 = Silent trials only
+                  'cue': None}
+
+        self.contra_data = ZScoredTraces(trial_data, photometry_data, params, 0, 0)  # the cue happens on the trial preceding the SOR trial, hence the side of that trial doesn't matter at all
+        # no ipsi data for SOR trials as ipsi trials were classic 2AC trials.
 
 class ZScoredTraces(object):
     def __init__(self, trial_data, dff, params, response, first_choice):
@@ -132,7 +215,6 @@ def find_and_z_score_traces(trial_data, dff, params, norm_window=8, sort=False, 
         events_of_int = getNonSilenceTrials(events_of_int)
 
 
-
     # 1) State type (e.g. corresp. State name = CueDelay, WaitforResponse...)
     events_of_int = events_of_int.loc[(events_of_int['State type'] == params.state)]  # State type = number of state of interest
     state_name = events_of_int['State name'].values[0]
@@ -143,9 +225,7 @@ def find_and_z_score_traces(trial_data, dff, params, norm_window=8, sort=False, 
     if params.response != 0:    # 0 = don't care, 1 = left, 2 = right, selection of ipsi an contra side depends on fiber side
         events_of_int = events_of_int.loc[events_of_int['Response'] == params.response]
         title = title + ' Response = ' + str(params.response) + ';'
-    else:
-        print('Response = 0, so both left and right responses are considered')
-    # --------------
+    # -------------
 
     # 3) First and last response:
     if params.first_choice != 0:
@@ -199,53 +279,66 @@ def find_and_z_score_traces(trial_data, dff, params, norm_window=8, sort=False, 
         events_of_int = events_of_int.loc[(events_of_int['First choice correct'] == 0)]
     # --------------
 
-    event_times = events_of_int[params.align_to].values # start or end of state of interest time points
-    trial_nums = events_of_int['Trial num'].values
-    trial_starts = events_of_int['Trial start'].values
-    trial_ends = events_of_int['Trial end'].values
+    curr_nr_trials = events_of_int.shape[0]
 
-    other_event = np.asarray(np.squeeze(events_of_int[params.other_time_point].values) - np.squeeze(events_of_int[params.align_to].values))
-    # for ex. time end - time start of state of interest
+    if curr_nr_trials != 0:
+        event_times = events_of_int[params.align_to].values # start or end of state of interest time points
+        trial_nums = events_of_int['Trial num'].values
+        trial_starts = events_of_int['Trial start'].values
+        trial_ends = events_of_int['Trial end'].values
 
-    last_trial = np.max(trial_data['Trial num'])                # absolutely last trial in session
-    last_trial_num = events_of_int['Trial num'].unique()[-1]    # last trial that is considered in analysis meeting params requirements
-    events_reset_index = events_of_int.reset_index(drop=True)
-    last_trial_event_index = events_reset_index.loc[(events_reset_index['Trial num'] == last_trial_num)].index
+        other_event = np.asarray(np.squeeze(events_of_int[params.other_time_point].values) - np.squeeze(events_of_int[params.align_to].values))
+        # for ex. time end - time start of state of interest
+
+        last_trial = np.max(trial_data['Trial num'])                # absolutely last trial in session
+        last_trial_num = events_of_int['Trial num'].unique()[-1]    # last trial that is considered in analysis meeting params requirements
+        events_reset_index = events_of_int.reset_index(drop=True)
+        last_trial_event_index = events_reset_index.loc[(events_reset_index['Trial num'] == last_trial_num)].index
             # index of the last event in the last trial that is considered in analysis meeting params requirements
-    next_centre_poke = get_next_centre_poke(trial_data, events_of_int, last_trial_num == last_trial)
-    trial_starts = get_first_poke(trial_data, events_of_int)
-    absolute_outcome_times = get_outcome_time(trial_data, events_of_int)
-    relative_outcome_times = absolute_outcome_times - event_times
+        next_centre_poke = get_next_centre_poke(trial_data, events_of_int, last_trial_num == last_trial)
+        trial_starts = get_first_poke(trial_data, events_of_int)
+        absolute_outcome_times = get_outcome_time(trial_data, events_of_int)
+        relative_outcome_times = absolute_outcome_times - event_times
 
-    if get_photometry_data == True:
-        next_centre_poke[last_trial_event_index] = events_reset_index[params.align_to].values[
+        if get_photometry_data == True:
+            next_centre_poke[last_trial_event_index] = events_reset_index[params.align_to].values[
                                                          last_trial_event_index] + 1  # so that you can find reward peak
 
-        next_centre_poke_norm = next_centre_poke - event_times
-        event_photo_traces = get_photometry_around_event(event_times, dff, pre_window=norm_window,
+            next_centre_poke_norm = next_centre_poke - event_times
+            event_photo_traces = get_photometry_around_event(event_times, dff, pre_window=norm_window,
                                                              post_window=norm_window)
-        norm_traces = stats.zscore(event_photo_traces.T, axis=0)
+            norm_traces = stats.zscore(event_photo_traces.T, axis=0)
 
 
-        if other_event.size == 1:
-            print('Only one event for ' + title + ' so no sorting')
-            sort = False
-        elif len(other_event) != norm_traces.shape[1]:
-            other_event = other_event[:norm_traces.shape[1]]
-            print('Mismatch between #events and #other_event')
-        if sort:
-            arr1inds = other_event.argsort()
-            sorted_other_event = other_event[arr1inds[::-1]]
-            sorted_traces = norm_traces.T[arr1inds[::-1]]
-            sorted_next_poke = next_centre_poke_norm[arr1inds[::-1]]
-        else:
-            sorted_other_event = other_event
-            sorted_traces = norm_traces.T
-            sorted_next_poke = next_centre_poke_norm
+            if other_event.size == 1:
+                print('Only one event for ' + title + ' so no sorting')
+                sort = False
+            elif len(other_event) != norm_traces.shape[1]:
+                other_event = other_event[:norm_traces.shape[1]]
+                print('Mismatch between #events and #other_event')
+            if sort:
+                arr1inds = other_event.argsort()
+                sorted_other_event = other_event[arr1inds[::-1]]
+                sorted_traces = norm_traces.T[arr1inds[::-1]]
+                sorted_next_poke = next_centre_poke_norm[arr1inds[::-1]]
+            else:
+                sorted_other_event = other_event
+                sorted_traces = norm_traces.T
+                sorted_next_poke = next_centre_poke_norm
 
-        time_points = np.linspace(-norm_window, norm_window, norm_traces.shape[0], endpoint=True, retstep=False,
+            time_points = np.linspace(-norm_window, norm_window, norm_traces.shape[0], endpoint=True, retstep=False,
                                       dtype=None, axis=0)
-        mean_trace = np.mean(sorted_traces, axis=0)
+            mean_trace = np.mean(sorted_traces, axis=0)
+
+    else:
+        time_points = None
+        mean_trace = None
+        sorted_traces = None
+        sorted_other_event =None
+        sorted_next_poke = None
+        trial_nums = None
+        event_times = None
+        relative_outcome_times = None
 
     return time_points, mean_trace, sorted_traces, sorted_other_event, state_name, title, sorted_next_poke, trial_nums, event_times, relative_outcome_times
 
@@ -426,6 +519,3 @@ def calculate_error_bars(mean_trace, data, error_bar_method='sem'):
         lower_bound, upper_bound = bootstrap(data, n_boot=1000, ci=68)
     return lower_bound, upper_bound
 
-def test2(a, b):
-    c = a * b
-    return c
