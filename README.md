@@ -97,22 +97,22 @@ git clone https://github.com/HernandoMV/APE_paper.git
   <img src="docs/imgs/fig7fg.png" width=450>
 </p>
 
-[Suppl. Figure 5 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
+[ED 12 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
 <p align="left">
-  <img src="docs/imgs/SFig5fg.png" width=450>
+  <img src="docs/imgs/ED12fg.png" width=450>
 </p>
 
-[Suppl. Figure 6 PQR](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
+[ED 5 PQR](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
 <p align="left">
-  <img src="docs/imgs/SFig6pqr.png" width=450>
+  <img src="docs/imgs/ED5pqr.png" width=450>
 </p>
 
-[Suppl. Figure 6 TU](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
+[ED 5 VW](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
 <p align="left">
-  <img src="docs/imgs/SFig6tu.png" width=450>
+  <img src="docs/imgs/ED5vw.png" width=450>
 </p>
 
-[Suppl. Figure 6 VW](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
+[ED 5 XY](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
 <p align="left">
-  <img src="docs/imgs/SFig6vw.png" width=450>
+  <img src="docs/imgs/ED5xy.png" width=450>
 </p>
