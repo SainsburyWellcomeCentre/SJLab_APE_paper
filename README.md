@@ -110,8 +110,8 @@ git clone https://github.com/HernandoMV/APE_paper.git
 [ED 5 ST](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
 <p align="left">
   <img src="docs/imgs/ED5st_EarlyTraining.png" width=450>
+  <img src="docs/imgs/ED5st_1stCueSession.png" width=450>
 </p>
-
 
 [ED 5 VW](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
 <p align="left">
