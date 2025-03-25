@@ -152,21 +152,33 @@ def plot_ED5ST(all_group_data, curr_data_time, return_contra_cue_on_values, retu
         curr_marker = '+'
 
     for i in range(0, len(return_contra_cue_on_values)):
-        x_val = [0, 1, 2, 3]
-        y_val = [return_contra_cue_on_values[i], return_contra_cue_off_values[i], return_ipsi_cue_on_values[i],
-                 return_ipsi_cue_off_values[i]]
-        ax[1].plot(x_val, y_val, color='#3F888F', linewidth=0, marker=curr_marker, markersize=10)
+        x_val1 = [0, 1]
+        x_val2 = [2, 3]
+
+        y_val1 = [return_contra_cue_on_values[i], return_contra_cue_off_values[i]]
+        y_val2 = [return_ipsi_cue_on_values[i], return_ipsi_cue_off_values[i]]
+        ax[1].plot(x_val1, y_val1, color='cyan', linewidth=0, marker=curr_marker, markersize=10)
+        ax[1].plot(x_val2, y_val2, color='blue', linewidth=0, marker=curr_marker, markersize=10)
 
     ax[1].spines['top'].set_visible(False)
     ax[1].spines['right'].set_visible(False)
-    # ax2.set_xticks([0, 1, 2, 3], ["contra cue on", "contra cue off", "ipsi cue on", "ipsi cue off"])
-    # ax2.set_xticks([0, 1, 2, 3], labels=["contra cue on", "contra cue off", "ipsi cue on", "ipsi cue off"])
+    #ax[1].set_xticks([0, 1, 2, 3], ["contra cue on", "contra cue off", "ipsi cue on", "ipsi cue off"])
+
+    # Set the tick positions
+    ax[1].set_xticks([0, 1, 2, 3])
+    # Set the tick labels with a line break and reduced font size
+    ax[1].set_xticklabels([
+        "contra\ncue on",
+        "contra\ncue off",
+        "ipsi\ncue on",
+        "ipsi\ncue off"
+    ], fontsize=10)
     ax[1].set_ylabel('dLight z-score')
 
     for i in range(0, 4):
         ax[1].plot([i, i], [mean_peak_values[i] + sem_peak_values[i], mean_peak_values[i] - sem_peak_values[i]],
-                 color='r', linewidth=1)
-        ax[1].plot([i], [mean_peak_values[i]], marker='o', markersize=10, color='r', linewidth=1)
+                 color='grey', linewidth=1)
+        ax[1].plot([i], [mean_peak_values[i]], marker='o', markersize=10, color='grey', linewidth=1)
 
     ax[1].set_ylim([-1, 1])
     ax[1].set_yticks([-1, 0, 1])
