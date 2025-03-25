@@ -2,7 +2,7 @@ Code: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10732202.svg)](https:/
 
 Datasets: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7261639.svg)](https://doi.org/10.5281/zenodo.7261639)
 
-# APE_paper
+# APE_paper test
 Reproduction of figures for the [APE paper](https://www.biorxiv.org/content/10.1101/2022.09.12.507572v1)
 
 <p align="center">
