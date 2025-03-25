@@ -100,6 +100,82 @@ def plot_SF6PQR(all_group_data, curr_data_time, SOR_choice_peak_values, SOR_cue_
     ax[2].set_xlim(-0.5, 1.5)
     ax[2].set_ylim(y_range)
 
+
+def plot_ED5ST(all_group_data, curr_data_time, return_contra_cue_on_values, return_contra_cue_off_values, return_ipsi_cue_on_values, return_ipsi_cue_off_values, group):
+    fig, ax = plt.subplots(1, 2, figsize=(6, 3), gridspec_kw={'width_ratios': [1, 2]})
+    fig.tight_layout(pad=4)
+
+    # Plotting the z-scored dLight traces ED5S
+    x_range = [-2, 3]
+    y_range = [-1, 2]
+    nr_mice = len(all_group_data['SOR_return_cueON_contra'])
+    labels = ['Contra cue ON', 'Contra cue OFF', 'Ipsi cue ON', 'Ipsi cue OFF']
+    for a, key in enumerate(all_group_data.keys()):
+        curr_data = all_group_data[key]
+        curr_data_set_mean = np.mean(curr_data, axis=0)
+        curr_data_set_sem = np.std(curr_data, axis=0) / np.sqrt(nr_mice)
+
+        if 'contra' in key.lower():
+            color_mean = 'cyan'
+            color_sem = 'lightcyan'
+        else:
+            color_mean = 'blue'
+            color_sem = 'lightblue'
+
+        if 'cueOFF' in key:
+            lstyle = '-.'
+        else:
+            lstyle = '-'
+
+        alpha = 0.75
+        ax[0].plot(curr_data_time, curr_data_set_mean, lw=2, color=color_mean, linestyle= lstyle, label = labels[a])
+        ax[0].fill_between(curr_data_time, curr_data_set_mean - curr_data_set_sem, curr_data_set_mean + curr_data_set_sem, color=color_sem,
+                                   linewidth=1, alpha=alpha)
+
+        ax[0].legend(loc='upper right', bbox_to_anchor=(1, 1), frameon=False, fontsize=6)
+        ax[0].spines['top'].set_visible(False)
+        ax[0].spines['right'].set_visible(False)
+        ax[0].axvline(0, color='#808080', linewidth=0.5, ls='dashed')
+        ax[0].set_xlabel('Time (s)')
+        ax[0].set_ylabel('dLight z-score')
+        ax[0].set_xlim(x_range)
+        ax[0].set_ylim(y_range)
+
+    # Plotting the average peak dLight values in ED5T early in training:
+    mean_peak_values = [np.mean(return_contra_cue_on_values), np.mean(return_contra_cue_off_values), np.mean(return_ipsi_cue_on_values), np.mean(return_ipsi_cue_off_values)]
+    sem_peak_values = [np.std(return_contra_cue_on_values) / np.sqrt(len(return_contra_cue_on_values)), np.std(return_contra_cue_off_values) / np.sqrt(len(return_contra_cue_off_values)),
+                           np.std(return_ipsi_cue_on_values) / np.sqrt(len(return_ipsi_cue_on_values)), np.std(return_ipsi_cue_off_values) / np.sqrt(len(return_ipsi_cue_off_values))]
+
+    if group == 'EarlyTraining':
+        curr_marker = 'o'
+    else:
+        curr_marker = '+'
+
+    for i in range(0, len(return_contra_cue_on_values)):
+        x_val = [0, 1, 2, 3]
+        y_val = [return_contra_cue_on_values[i], return_contra_cue_off_values[i], return_ipsi_cue_on_values[i],
+                 return_ipsi_cue_off_values[i]]
+        ax[1].plot(x_val, y_val, color='#3F888F', linewidth=0, marker=curr_marker, markersize=10)
+
+    ax[1].spines['top'].set_visible(False)
+    ax[1].spines['right'].set_visible(False)
+    # ax2.set_xticks([0, 1, 2, 3], ["contra cue on", "contra cue off", "ipsi cue on", "ipsi cue off"])
+    # ax2.set_xticks([0, 1, 2, 3], labels=["contra cue on", "contra cue off", "ipsi cue on", "ipsi cue off"])
+    ax[1].set_ylabel('Z-scored dF/F')
+
+    for i in range(0, 4):
+        ax[1].plot([i, i], [mean_peak_values[i] + sem_peak_values[i], mean_peak_values[i] - sem_peak_values[i]],
+                 color='r', linewidth=1)
+        ax[1].plot([i], [mean_peak_values[i]], marker='o', markersize=10, color='r', linewidth=1)
+
+    ax[1].set_ylim([-1, 1])
+    ax[1].set_yticks([-1, 0, 1])
+    ax[1].set_xlim([-0.5, 3.5])
+
+
+
+
+
 def plot_SF5FG(all_group_data, time):
     fig, ax = plt.subplots(1, 2, figsize=(6, 3))
     fig.tight_layout(pad=4)

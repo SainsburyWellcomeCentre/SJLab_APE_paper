@@ -20,6 +20,8 @@ class SessionData(object):
         if self.protocol == 'SOR':
             self.SOR_choice = SORChoiceAlignedData(self, trial_data, photometry_data)
             self.SOR_cue = SORCueAlignedData(self, trial_data, photometry_data)
+            self.SOR_return_cueON = SORCueOnReturnAlignedData(self, trial_data, photometry_data)
+            self.SOR_return_cueOFF = SORCueOFFReturnAlignedData(self, trial_data, photometry_data)
 
 
 class ChoiceAlignedData(object):
@@ -167,6 +169,73 @@ class SORCueAlignedData(object):
         self.contra_data = ZScoredTraces(trial_data, photometry_data, params, 0, 0)  # the cue happens on the trial preceding the SOR trial, hence the side of that trial doesn't matter at all
         # no ipsi data for SOR trials as ipsi trials were classic 2AC trials.
 
+
+class SORCueOnReturnAlignedData(object):
+
+    """
+     Traces for SOR analysis: aligned to side port out (= return to centre) movement for trials when cue is played during the return
+   """
+
+    def __init__(self, session_data, trial_data, photometry_data):
+        fiber_options = np.array(['left', 'right'])
+        contra_fiber_side_numeric = (np.where(fiber_options != session_data.fiber_side)[0] + 1)[0]
+        ipsi_fiber_side_numeric = (np.where(fiber_options == session_data.fiber_side)[0] + 1)[0]
+
+        # Return cue ON trials:
+        params = {'state_type_of_interest': 9,  # in SOR state 9 = return cue delay (= end of wait for side port out)
+                  'outcome': 2,  # 2 = doesn't matter for choice aligned data
+                  'no_repeats': 1,
+                  'last_response': 0,  # doesnt matter for choice aligned data
+                  'align_to': 'Time start',
+                  'instance': -1,  # last instance
+                  'plot_range': [-6, 6],
+                  'first_choice_correct': 2,
+                  'SOR': 3,
+                  # 0 = NonSOR, 1 = SOR, 2 = doesn't matter = trial_data, 3 = return cue trials, 4 = return cue OFF trials (no return cue)
+                  'psycho': 0,
+                  'LRO': 0,
+                  'LargeRewards': 0,
+                  'Omissions': 0,
+                  'Silence': 0,  # 1 = Silent trials only
+                  'cue': None}
+
+        self.ipsi_data = ZScoredTraces(trial_data, photometry_data, params, contra_fiber_side_numeric, contra_fiber_side_numeric)  # in a contra trial, the return is ipsi
+        self.contra_data = ZScoredTraces(trial_data, photometry_data, params, ipsi_fiber_side_numeric, ipsi_fiber_side_numeric)  # in an ipsi trial, the return is contra
+
+class SORCueOFFReturnAlignedData(object):
+        """
+        Traces for SOR analysis: aligned to return movement as in leaving the side port without return cue
+        """
+
+        def __init__(self, session_data, trial_data, photometry_data):
+            fiber_options = np.array(['left', 'right'])
+            contra_fiber_side_numeric = (np.where(fiber_options != session_data.fiber_side)[0] + 1)[0]
+            ipsi_fiber_side_numeric = (np.where(fiber_options == session_data.fiber_side)[0] + 1)[0]
+
+            # Return cue OFF trials:
+            params = {'state_type_of_interest': 8,  # 8 = wait for side port out
+                  'outcome': 2,  # 2 = doesn't matter for choice aligned data
+                  # 'last_outcome': 0,  # NOT USED CURRENTLY
+                  'no_repeats': 1,
+                  'last_response': 0,  # doesnt matter for choice aligned data
+                  'align_to': 'Time end',
+                  'instance': -1,  # last instance
+                  'plot_range': [-6, 6],
+                  'first_choice_correct': 2,
+                  'SOR': 4,
+                  # 0 = NonSOR, 1 = SOR, 2 = doesn't matter = trial_data, 3 = return cue trials, 4 = return cue OFF trials (no return cue)
+                  'psycho': 0,
+                  'LRO': 0,
+                  'LargeRewards': 0,
+                  'Omissions': 0,
+                  'Silence': 0,  # 1 = Silent trials only
+                  'cue': None}
+
+            self.ipsi_data = ZScoredTraces(trial_data, photometry_data, params, contra_fiber_side_numeric, contra_fiber_side_numeric)  # in a contra trial, the return is ipsi
+            self.contra_data = ZScoredTraces(trial_data, photometry_data, params, ipsi_fiber_side_numeric, ipsi_fiber_side_numeric)  # in an ipsi trial, the return is contra
+
+
+
 class ZScoredTraces(object):
     def __init__(self, trial_data, dff, params, response, first_choice):
         self.params = HeatMapParams(params, response, first_choice)
@@ -207,6 +276,11 @@ def find_and_z_score_traces(trial_data, dff, params, norm_window=8, sort=False, 
         events_of_int = getSORtrials(trial_data)
     elif params.SOR == 2:
         events_of_int = trial_data
+    elif params.SOR == 3:
+        events_of_int = getReturnCueTrials(trial_data)
+    elif params.SOR == 4:
+        events_of_int = getNoReturnCueTrials(trial_data)
+
     if params.psycho == 0:
         events_of_int = getNonPsychotrials(events_of_int)
     if params.LRO == 0:
@@ -367,6 +441,33 @@ def getNonSORtrials(trial_data):
         if include == 0:
             trial_data_2AC = trial_data_2AC[trial_data_2AC['Trial num'] != trial_all]
     return trial_data_2AC
+
+def getReturnCueTrials(trial_data):
+    trialnums_trial_data = trial_data['Trial num'].unique()  # all trial numbers
+    return_trials = trial_data[trial_data['State name'] == 'ReturnCuePlay']
+    return_trial_nums = return_trials['Trial num'].unique()
+    return_cue_trial_data = trial_data
+    for trial in trialnums_trial_data:
+        include = 0
+        for return_trial in return_trial_nums:
+            if trial == return_trial:
+                include = 1
+        if include == 0:
+            return_cue_trial_data = return_cue_trial_data[return_cue_trial_data['Trial num'] != trial]
+    return return_cue_trial_data
+
+def getNoReturnCueTrials(trial_data):
+    trialnums_trial_data = trial_data['Trial num'].unique()  # all trial numbers
+    return_trials = trial_data[trial_data['State name'] == 'ReturnCuePlay']
+    return_trial_nums = return_trials['Trial num'].unique()
+    excl_trials = trial_data[trial_data['State name'] == 'DidNotPokeInTime']['Trial num'].unique()
+    No_return_cue_trial_data = trial_data
+
+    for return_trial in return_trial_nums:
+        No_return_cue_trial_data = No_return_cue_trial_data[No_return_cue_trial_data['Trial num'] != return_trial]
+    for excl_trial in excl_trials:
+        No_return_cue_trial_data = No_return_cue_trial_data[No_return_cue_trial_data['Trial num'] != excl_trial]
+    return No_return_cue_trial_data
 
 def getNonSilenceTrials(trial_data):
     total_trials = len(trial_data['Trial num'].unique())
