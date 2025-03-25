@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def plot_SF6TU(APE_mean_trace, RTC_mean_trace, APE_sem_trace, RTC_sem_trace, APE_peak_values, RTC_peak_values, APE_time, RTC_time):
+def plot_ED5VW(APE_mean_trace, RTC_mean_trace, APE_sem_trace, RTC_sem_trace, APE_peak_values, RTC_peak_values, APE_time, RTC_time):
     x_range = [-2, 3]
     y_range = [-0.75, 1.5]
     plt.rcParams["figure.figsize"] = (3, 6)
@@ -50,7 +50,7 @@ def plot_SF6TU(APE_mean_trace, RTC_mean_trace, APE_sem_trace, RTC_sem_trace, APE
     return fig
 
 
-def plot_SF6PQR(all_group_data, curr_data_time, SOR_choice_peak_values, SOR_cue_peak_values):
+def plot_ED5PQR(all_group_data, curr_data_time, SOR_choice_peak_values, SOR_cue_peak_values):
     fig, ax = plt.subplots(1, 3, figsize=(9, 3))
     fig.tight_layout(pad=4)
     x_range = [-2, 3]
@@ -161,7 +161,7 @@ def plot_ED5ST(all_group_data, curr_data_time, return_contra_cue_on_values, retu
     ax[1].spines['right'].set_visible(False)
     # ax2.set_xticks([0, 1, 2, 3], ["contra cue on", "contra cue off", "ipsi cue on", "ipsi cue off"])
     # ax2.set_xticks([0, 1, 2, 3], labels=["contra cue on", "contra cue off", "ipsi cue on", "ipsi cue off"])
-    ax[1].set_ylabel('Z-scored dF/F')
+    ax[1].set_ylabel('dLight z-score')
 
     for i in range(0, 4):
         ax[1].plot([i, i], [mean_peak_values[i] + sem_peak_values[i], mean_peak_values[i] - sem_peak_values[i]],
@@ -176,7 +176,7 @@ def plot_ED5ST(all_group_data, curr_data_time, return_contra_cue_on_values, retu
 
 
 
-def plot_SF5FG(all_group_data, time):
+def plot_ED12FG(all_group_data, time):
     fig, ax = plt.subplots(1, 2, figsize=(6, 3))
     fig.tight_layout(pad=4)
     x_range = [-2, 3]
