@@ -12,9 +12,16 @@ Reproduction of figures for the [APE paper](https://www.biorxiv.org/content/10.1
 Francesca Greenstreet, Hernando Vergara, Yvonne Johansson, Sthitapranjya Pati, Stephen C Lenzi, Alina Gubanova, Laura Schwarz, Matthew Wisdom, Fred Marbach, Lars Rollik, Theodore Moskovitz, Joseph Cohen, Emmett Thompson, Troy W Margrie, Claudia Clopath, Marcus Stephenson-Jones, "Action prediction error: a value-free dopaminergic teaching signal that drives stable learning." bioRxiv, 2022.
 
 
-### See documentation (scripts to generate figures) [here](https://hernandomv.github.io/APE_paper/)
+### See documentation (scripts to generate figures) [here](https://hernandomv.github.io/APE_paper/) and 'Documentation for code.pdf' file in APE_paper_photometry_code_francesca folder of this repository.
 
-# To run things locally in your machine:
+# To run analysis on photometry data (except for panels ED fig 5 O-Y and ED fig 12):
+See the documentation provided in Documentation for code.pdf' file in APE_paper_photometry_code_francesca folder of this repository.
+
+All modeling work can be found in folder 'models'.
+
+# To run manipulations, lesion and behavioral analysis as well as photometry for panels ED fig 5 O-Y and ED fig 12:
+
+## To run things locally in your machine:
 
 1. clone this repo
 
