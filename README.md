@@ -8,8 +8,7 @@ Reproduction of figures for the [APE paper](https://www.biorxiv.org/content/10.1
 <p align="center">
   <img src="docs/imgs/summary.png" width=450>
 </p>
-
-Francesca Greenstreet, Hernando Vergara, Yvonne Johansson, Sthitapranjya Pati, Stephen C Lenzi, Alina Gubanova, Laura Schwarz, Matthew Wisdom, Fred Marbach, Lars Rollik, Theodore Moskovitz, Joseph Cohen, Emmett Thompson, Troy W Margrie, Claudia Clopath, Marcus Stephenson-Jones, "Action prediction error: a value-free dopaminergic teaching signal that drives stable learning." bioRxiv, 2022.
+Francesca Greenstreet*, Hernando Martinez Vergara*, Yvonne Johansson*, Sthitapranjya Pati, Laura Schwarz, Stephen C Lenzi, Jesse P. Geerts, Matthew Wisdom1, Alina Gubanova, Lars Rollik, Jasvin Kaur, Theodore Moskovitz, Joseph Cohen, Emmett Thompson, Troy W Margrie, Claudia Clopath, Marcus Stephenson-Jones, "Dopaminergic action prediction errors serve as a value-free teaching signal." 
 
 
 ### See documentation (scripts to generate figures) [here](https://hernandomv.github.io/APE_paper/) and 'Documentation for code.pdf' file in APE_paper_photometry_code_francesca folder of this repository.
