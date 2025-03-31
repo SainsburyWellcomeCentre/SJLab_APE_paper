@@ -1,7 +1,7 @@
 **/__pycache__/
 *.egg-info/
 .ipynb_checkpoints/
-data/*.csv
+data/*
 docs/sphinx/_build/
 docs/sphinx/auto_examples/
 scripts/*.pdf
