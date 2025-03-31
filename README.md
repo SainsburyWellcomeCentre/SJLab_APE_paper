@@ -70,37 +70,30 @@ git clone https://github.com/HernandoMV/APE_paper.git
 
 # Run the Google Colab notebooks directly in your browser:
 
-[Figure 1 C](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_1_C.ipynb)
+[Figure 1 C](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_1_C_Nature.ipynb)
 <p align="left">
   <img src="docs/imgs/fig1c.png" width=250>
 </p>
 
-[Figure 1 EF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_1_EF.ipynb)
+[Figure 1 EF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_1_EF_Nature.ipynb)
 <p align="left">
   <img src="docs/imgs/fig1ef.png" width=450>
 </p>
 
-[Figure 1 IJK](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_1_IJK.ipynb)
+[Figure 1 HIJLMN](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_1_HIJLMN_Nature.ipynb)
 <p align="left">
   <img src="docs/imgs/fig1ijk.png" width=450>
 </p>
 
-[Figure 2 BCDE](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_2_BCDE.ipynb)
+[Figure 4 CDF 4mW data](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_4_DF_Nature.ipynb)
 <p align="left">
-  <img src="docs/imgs/fig2b.png" width=250>
-  <img src="docs/imgs/fig2cde.png" width=450>
+  <img src="docs/imgs/fig4d.png" width=200>
+  <img src="docs/imgs/fig4f.png" width=210>
 </p>
 
-[Figure 6 CDF](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_6_CDF.ipynb)
+[Figure 5 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_5_FG_Nature.ipynb)
 <p align="left">
-  <img src="docs/imgs/fig6c.png" width=250>
-  <img src="docs/imgs/fig6d.png" width=250>
-  <img src="docs/imgs/fig6f.png" width=150>
-</p>
-
-[Figure 7 FG](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_7_FG.ipynb)
-<p align="left">
-  <img src="docs/imgs/fig7fg.png" width=450>
+  <img src="docs/imgs/fig5fg.png" width=450>
 </p>
 
 [ED 5 PQR](https://colab.research.google.com/github/HernandoMV/APE_paper/blob/main/docs/figures_notebooks/Figure_S5_TU.ipynb)
